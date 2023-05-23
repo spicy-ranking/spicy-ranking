@@ -6,6 +6,17 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return Scaffold(
+      appBar: buildAppBar(),
+    );
+  }
+
+  AppBar buildAppBar() {
+    return AppBar(
+      title: Text('SPICY-RANKING'),
+      backgroundColor: Colors.red[400],
+      // elevatino: widgetが浮いてるような影をつける
+      elevation: 10,
+    );
   }
 }
