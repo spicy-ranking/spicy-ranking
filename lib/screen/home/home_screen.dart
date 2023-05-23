@@ -9,13 +9,13 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: buildAppBar(),
-      body: Body(),
+      body: const Body(),
     );
   }
 
   AppBar buildAppBar() {
     return AppBar(
-      title: Text('SPICY-RANKING'),
+      title: const Text('SPICY-RANKING'),
       backgroundColor: Colors.red[400],
       // elevatino: widgetが浮いてるような影をつける
       elevation: 10,
