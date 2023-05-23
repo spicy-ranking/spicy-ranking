@@ -33,14 +33,14 @@ class _CategoriesState extends State<Categories> {
         });
       }),
       child: Padding(
-        padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin),
+        padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(categories[index],
             style: TextStyle(
               fontWeight: FontWeight.bold, 
               color: selectedIndex == index ? kTextColor: kTextLightColor)),
           Container(
-            margin: EdgeInsets.only(top: kDefaultPaddin / 4), 
+            margin: const EdgeInsets.only(top: kDefaultPaddin / 4), 
             height: 2,
             width: 30,
             color: selectedIndex == index ? Colors.black : Colors.transparent,
