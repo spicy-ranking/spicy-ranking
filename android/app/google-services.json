@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "923147600370",
+    "project_id": "spicy-ranking",
+    "storage_bucket": "spicy-ranking.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923147600370:android:1682fbee2bbf17d8c3eb6b",
+        "android_client_info": {
+          "package_name": "com.example.spicy_ranking"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923147600370-mqapfftor569ivkj976e1lunc5513nrb.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCZm_odyirBXXaMCB8mFd_o_OTmBeUi1uw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "923147600370-mqapfftor569ivkj976e1lunc5513nrb.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "923147600370-bs26d2fdp6ronhlm1bfqdcdg45g9pgnd.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.spicyRanking.RunnerTests"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
