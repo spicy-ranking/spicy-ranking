@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+<<<<<<< HEAD
+=======
+import 'constants.dart';
+import 'screen/home/input.dart';
+>>>>>>> 44b5941 (refactor: リファクタリング #2)
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -37,6 +42,7 @@ class MyApp extends StatelessWidget {
 //       ),
 //       home: const HomeScreen(),
 
+      //home: const Input(),
     );
   }
 }
