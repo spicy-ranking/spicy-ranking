@@ -27,8 +27,8 @@ class MyApp extends StatelessWidget {
         body: const StreamPage(),
       ),
 
-      // 右上に出る"Debag"マークをけす
-//       debugShowCheckedModeBanner: false,
+      //右上に出る"Debag"マークをけす
+     debugShowCheckedModeBanner: false,
 //       title: 'Flutter Demo',
 //       theme: ThemeData(
 //         textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
