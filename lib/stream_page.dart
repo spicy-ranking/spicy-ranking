@@ -16,7 +16,7 @@ class StreamPage extends StatelessWidget {
   const StreamPage({super.key});
 
   // Streamを使用して、モデルクラスから、データを取得するメソッド
-  Stream<List<Food>> _fetchPersonsStream() {
+  Stream<List<Food>> _fetchFoodsStream() {
     final firestore = FirebaseFirestore.instance;
     final stream = firestore.collection('spicy-cup-noodle').snapshots();
     return stream.map((snapshot) =>
@@ -28,7 +28,7 @@ class StreamPage extends StatelessWidget {
     // ListとFoodクラスを指定する
     return StreamBuilder<List<Food>>(
       // 上で定義したメソッドを使用する
-      stream: _fetchPersonsStream(),
+      stream: _fetchFoodsStream(),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return Center(child: CircularProgressIndicator());
