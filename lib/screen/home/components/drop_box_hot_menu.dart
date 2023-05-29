@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:spicy_ranking/constants.dart';
 
-const List<String> hotChoices = <String>['辛い','辛くない'];
+const List<String> hotChoices = <String>['辛い', '辛くない'];
 
 class DropBoxHotMenu extends StatefulWidget {
   const DropBoxHotMenu({Key? key}) : super(key: key);
