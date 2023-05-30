@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spicy_ranking/constants.dart';
+import 'package:spicy_ranking/constant/constants.dart';
 
 class Categories extends StatefulWidget {
   const Categories({Key? key}) : super(key: key);

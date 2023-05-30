@@ -1,15 +1,7 @@
 import 'package:flutter/material.dart';
-import 'constants.dart';
-import 'screen/home/home.dart';
-
+import 'app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-//import 'package:cloud_firestore/cloud_firestore.dart';
-//import 'package:firebase_auth/firebase_auth.dart';
-import 'stream_page.dart';
-
-//import 'constants.dart';
-//import 'screen/home/home_screen.dart';
 
 
 
@@ -24,7 +16,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const MaterialApp(
 
-      home: HomeScreen(),
+      home: AppScreen(),
       //右上に出る"Debag"マークをけす
       debugShowCheckedModeBanner: false,
 

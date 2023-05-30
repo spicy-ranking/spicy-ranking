@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:spicy_ranking/view/input_page.dart';
 import 'package:spicy_ranking/view/ranking_page.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+class AppScreen extends StatefulWidget {
+  const AppScreen({Key? key}) : super(key: key);
 // class Input extends StatelessWidget {
 //   const Input({Key? key}) : super(key: key);
 
@@ -28,7 +28,7 @@ class HomeScreen extends StatefulWidget {
   }
 }
 
-class _TabBarPageState extends State<HomeScreen> {
+class _TabBarPageState extends State<AppScreen> {
   // タブバーで表示するアイコンのリストを_tabに格納
   final _tab = <Tab>[
     const Tab(text: "Ranking"),

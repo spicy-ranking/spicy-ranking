@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spicy_ranking/constants.dart';
+import 'package:spicy_ranking/constant/constants.dart';
 
 const  List<String> choices = <String>['ピーヤング 激辛春雨END', 'ペヤング 激辛焼きそばEND', 
 '三養食品 ブルダック炒め麺', '蒙古タンメン中本 北極ラーメン 激辛味噌', '蒙古タンメン中本 辛旨味噌'];
