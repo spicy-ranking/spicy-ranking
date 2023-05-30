@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'constants.dart';
+import 'screen/home/input.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -37,6 +39,7 @@ class MyApp extends StatelessWidget {
 //       ),
 //       home: const HomeScreen(),
 
+      //home: const Input(),
     );
   }
 }

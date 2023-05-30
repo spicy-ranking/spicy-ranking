@@ -5,6 +5,8 @@ import 'components/ranking.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
+// class Input extends StatelessWidget {
+//   const Input({Key? key}) : super(key: key);
 
   @override
   _TabBarPageState createState() => _TabBarPageState();
