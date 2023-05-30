@@ -9,7 +9,7 @@ class AppScreen extends StatefulWidget {
 //   const Input({Key? key}) : super(key: key);
 
   @override
-  _TabBarPageState createState() => _TabBarPageState();
+  TabBarPageState createState() => TabBarPageState();
 
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,24 +28,25 @@ class AppScreen extends StatefulWidget {
   }
 }
 
-class _TabBarPageState extends State<AppScreen> {
+class TabBarPageState extends State<AppScreen> {
   // タブバーで表示するアイコンのリストを_tabに格納
-  final _tab = <Tab>[
+  final tab = <Tab>[
     const Tab(text: "Ranking"),
     const Tab(text: "Input"),
   ];
 
   // TabBar,TabBarView, DefaultTabControllerを使い、タブバーとそれに連動するタブページを表示
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: _tab.length,
+      length: tab.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('SPICY-RANKING'),
           backgroundColor: Colors.red[400],
           // elevatino: widgetが浮いてるような影をつける
           elevation: 10,
-          bottom: TabBar(tabs: _tab),
+          bottom: TabBar(tabs: tab),
         ),
         body: const TabBarView(
           children: <Widget>[RankPage(), Body()],
@@ -61,13 +62,14 @@ class TabPage extends StatelessWidget {
 
   // コンストラクタの作成(titleとiconを引数にして親クラスを継承)
   const TabPage({
+    super.key, 
     required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
     // Textに適応させるTextStyleをTheme(headline5)から持ってくる
-    final TextStyle? textStyle = Theme.of(context).textTheme.headline5;
+    final TextStyle? textStyle = Theme.of(context).textTheme.headlineSmall;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
