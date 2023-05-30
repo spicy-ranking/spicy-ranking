@@ -19,10 +19,10 @@ class _DropdownButtonMenuState extends State<DropdownButtonProductMenu> {
     return DropdownButton(
       iconSize: 30,
       padding: const EdgeInsets.all(kDefaultPaddin),
-      items: choices.map<DropdownMenuItem<String>>((String value) {
+      items: choices.map<DropdownMenuItem<String>>((String list) {
         return DropdownMenuItem<String>(
-          value: value,
-          child: Text(value),
+          value: list,
+          child: Text(list),
         );
       }).toList(),
       value: isSelectedValue,

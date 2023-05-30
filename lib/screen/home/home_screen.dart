@@ -1,12 +1,10 @@
 // 最初に表示される画面
 import 'package:flutter/material.dart';
-import 'components/body.dart';
-import 'components/ranking.dart';
+import 'components/input_page.dart';
+import 'components/ranking_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
-// class Input extends StatelessWidget {
-//   const Input({Key? key}) : super(key: key);
 
   @override
   _TabBarPageState createState() => _TabBarPageState();

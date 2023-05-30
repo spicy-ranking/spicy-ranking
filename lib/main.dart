@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'constants.dart';
-import 'screen/home/input.dart';
+import 'screen/home/home.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
@@ -22,24 +22,25 @@ void main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
+    return const MaterialApp(
 
-      home: Scaffold(
-        appBar: AppBar(title: const Text('カップ麺一覧')),
-        body: const StreamPage(),
-      ),
-
+      home: HomeScreen(),
       //右上に出る"Debag"マークをけす
-     debugShowCheckedModeBanner: false,
-//       title: 'Flutter Demo',
-//       theme: ThemeData(
-//         textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
-//         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-//         useMaterial3: true,
-//       ),
-//       home: const HomeScreen(),
+      debugShowCheckedModeBanner: false,
 
-      //home: const Input(),
+      // stream_page表示
+      // home: Scaffold(
+      //   appBar: AppBar(title: const Text('カップ麺一覧')),
+      //   body: const StreamPage(),
+      // ),
+
+      // title: 'Flutter Demo',
+      // theme: ThemeData(
+      //    textTheme: Theme.of(context).textTheme.apply(bodyColor: kTextColor),
+      //    colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+      //    useMaterial3: true,
+      // ),
+      
     );
   }
 }
