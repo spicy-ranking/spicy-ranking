@@ -29,8 +29,8 @@ class HomeScreen extends StatefulWidget {
 class _TabBarPageState extends State<HomeScreen> {
   // タブバーで表示するアイコンのリストを_tabに格納
   final _tab = <Tab>[
-    Tab(text: "Ranking"),
-    Tab(text: "Input"),
+    const Tab(text: "Ranking"),
+    const Tab(text: "Input"),
   ];
 
   // TabBar,TabBarView, DefaultTabControllerを使い、タブバーとそれに連動するタブページを表示
@@ -39,13 +39,13 @@ class _TabBarPageState extends State<HomeScreen> {
       length: _tab.length,
       child: Scaffold(
         appBar: AppBar(
-          title: Text('SPICY-RANKING'),
+          title: const Text('SPICY-RANKING'),
           backgroundColor: Colors.red[400],
           // elevatino: widgetが浮いてるような影をつける
           elevation: 10,
           bottom: TabBar(tabs: _tab),
         ),
-        body: TabBarView(
+        body: const TabBarView(
           children: <Widget>[RankPage(), Body()],
         ),
       ),

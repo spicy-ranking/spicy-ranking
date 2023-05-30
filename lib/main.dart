@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
-import 'package:cloud_firestore/cloud_firestore.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 //import 'package:firebase_auth/firebase_auth.dart';
 import 'stream_page.dart';
 
@@ -23,7 +23,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
 
       home: Scaffold(
-        appBar: AppBar(title: Text('カップ麺一覧')),
+        appBar: AppBar(title: const Text('カップ麺一覧')),
         body: const StreamPage(),
       ),
 
