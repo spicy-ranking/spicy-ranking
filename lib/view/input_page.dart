@@ -3,8 +3,8 @@ import 'package:spicy_ranking/constant/constants.dart';
 import 'package:spicy_ranking/components/drop_box_hot_menu.dart';
 import '../components/drop_box_product_menu.dart';
 
-class Body extends StatelessWidget {
-  const Body({Key? key}) : super(key: key);
+class Input extends StatelessWidget {
+  const Input({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

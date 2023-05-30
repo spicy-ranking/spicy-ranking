@@ -5,27 +5,27 @@ import 'package:spicy_ranking/view/ranking_page.dart';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({Key? key}) : super(key: key);
-// class Input extends StatelessWidget {
-//   const Input({Key? key}) : super(key: key);
 
+  // タブバーとそれに連動するタブページを表示する
   @override
   TabBarPageState createState() => TabBarPageState();
 
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(),
-      body: const Body(),
-    );
-  }
+  // ページを表示するだけの
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: buildAppBar(),
+  //     body: const Input(),
+  //   );
+  // }
 
-  AppBar buildAppBar() {
-    return AppBar(
-      title: const Text('SPICY-RANKING'),
-      backgroundColor: Colors.red[400],
-      // elevatino: widgetが浮いてるような影をつける
-      elevation: 10,
-    );
-  }
+  // AppBar buildAppBar() {
+  //   return AppBar(
+  //     title: const Text('SPICY-RANKING'),
+  //     backgroundColor: Colors.red[400],
+  //     // elevatino: widgetが浮いてるような影をつける
+  //     elevation: 10,
+  //   );
+  // }
 }
 
 class TabBarPageState extends State<AppScreen> {
@@ -49,7 +49,7 @@ class TabBarPageState extends State<AppScreen> {
           bottom: TabBar(tabs: tab),
         ),
         body: const TabBarView(
-          children: <Widget>[RankPage(), Body()],
+          children: <Widget>[RankPage(), Input()],
         ),
       ),
     );
@@ -68,7 +68,7 @@ class TabPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Textに適応させるTextStyleをTheme(headline5)から持ってくる
+    // Textに適応させるTextStyleをTheme(headlineSmall)から持ってくる <- headline5から変更
     final TextStyle? textStyle = Theme.of(context).textTheme.headlineSmall;
     return Center(
       child: Column(
