@@ -1,7 +1,7 @@
 // 最初に表示される画面
 import 'package:flutter/material.dart';
-import 'components/input_page.dart';
-import 'components/ranking_page.dart';
+import 'package:spicy_ranking/view/input_page.dart';
+import 'package:spicy_ranking/view/ranking_page.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
