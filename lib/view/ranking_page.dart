@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:spicy_ranking/screen/home/components/drop_box_product_menu.dart';
+import 'package:spicy_ranking/components/drop_box_product_menu.dart';
 
 class RankPage extends StatelessWidget {
   const RankPage({Key? key}) : super(key: key);

@@ -1,54 +1,55 @@
 // 最初に表示される画面
 import 'package:flutter/material.dart';
-import 'components/body.dart';
-import 'components/ranking.dart';
+import 'package:spicy_ranking/view/input_page.dart';
+import 'package:spicy_ranking/view/ranking_page.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
-// class Input extends StatelessWidget {
-//   const Input({Key? key}) : super(key: key);
+class AppScreen extends StatefulWidget {
+  const AppScreen({Key? key}) : super(key: key);
 
+  // タブバーとそれに連動するタブページを表示する
   @override
-  _TabBarPageState createState() => _TabBarPageState();
+  TabBarPageState createState() => TabBarPageState();
 
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: buildAppBar(),
-      body: const Body(),
-    );
-  }
+  // ページを表示するだけの
+  // Widget build(BuildContext context) {
+  //   return Scaffold(
+  //     appBar: buildAppBar(),
+  //     body: const Input(),
+  //   );
+  // }
 
-  AppBar buildAppBar() {
-    return AppBar(
-      title: const Text('SPICY-RANKING'),
-      backgroundColor: Colors.red[400],
-      // elevatino: widgetが浮いてるような影をつける
-      elevation: 10,
-    );
-  }
+  // AppBar buildAppBar() {
+  //   return AppBar(
+  //     title: const Text('SPICY-RANKING'),
+  //     backgroundColor: Colors.red[400],
+  //     // elevatino: widgetが浮いてるような影をつける
+  //     elevation: 10,
+  //   );
+  // }
 }
 
-class _TabBarPageState extends State<HomeScreen> {
+class TabBarPageState extends State<AppScreen> {
   // タブバーで表示するアイコンのリストを_tabに格納
-  final _tab = <Tab>[
+  final tab = <Tab>[
     const Tab(text: "Ranking"),
     const Tab(text: "Input"),
   ];
 
   // TabBar,TabBarView, DefaultTabControllerを使い、タブバーとそれに連動するタブページを表示
+  @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: _tab.length,
+      length: tab.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('SPICY-RANKING'),
           backgroundColor: Colors.red[400],
           // elevatino: widgetが浮いてるような影をつける
           elevation: 10,
-          bottom: TabBar(tabs: _tab),
+          bottom: TabBar(tabs: tab),
         ),
         body: const TabBarView(
-          children: <Widget>[RankPage(), Body()],
+          children: <Widget>[RankPage(), Input()],
         ),
       ),
     );
@@ -61,13 +62,14 @@ class TabPage extends StatelessWidget {
 
   // コンストラクタの作成(titleとiconを引数にして親クラスを継承)
   const TabPage({
+    super.key, 
     required this.title,
   });
 
   @override
   Widget build(BuildContext context) {
-    // Textに適応させるTextStyleをTheme(headline5)から持ってくる
-    final TextStyle? textStyle = Theme.of(context).textTheme.headline5;
+    // Textに適応させるTextStyleをTheme(headlineSmall)から持ってくる <- headline5から変更
+    final TextStyle? textStyle = Theme.of(context).textTheme.headlineSmall;
     return Center(
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
