@@ -13,7 +13,7 @@ class DropdownButtonProductMenu extends StatefulWidget {
 }
 
 class _DropdownButtonMenuState extends State<DropdownButtonProductMenu> {
-  String isSelectedValue = "0";
+  String isSelectedValue = "test1";
 
   @override
   Widget build(BuildContext context) {
@@ -24,13 +24,7 @@ class _DropdownButtonMenuState extends State<DropdownButtonProductMenu> {
         if(!snapshot.hasData){
           const CircularProgressIndicator();
         } else {
-          final foods = snapshot.data?.docs.reversed.toList();
-          foodItems.add(const DropdownMenuItem(
-            value: "0",
-            child: Text('Select Food'),
-            ),
-          );
-
+          final foods = snapshot.data?.docs.toList();
           for (var food in foods!){
             foodItems.add(
               DropdownMenuItem(
