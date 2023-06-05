@@ -5,10 +5,10 @@ class RankPage extends StatefulWidget {
   const RankPage({Key? key}) : super(key: key);
 
   @override
-  _RankPageState createState() => _RankPageState();
+  RankPageState createState() => RankPageState();
 }
 
-class _RankPageState extends State<RankPage> {
+class RankPageState extends State<RankPage> {
   late Future<List<String>> cupNoodleNamesFuture;
 
   Future<List<String>> getCupNoodleNames() async {
@@ -22,10 +22,10 @@ class _RankPageState extends State<RankPage> {
     QuerySnapshot querySnapshot = await cupNoodleCollection.get();
 
     // 各ドキュメントから"name"フィールドを取り出してリストに追加
-    querySnapshot.docs.forEach((doc) {
+    for (var doc in querySnapshot.docs) {
       String name = (doc.data() as Map<String, dynamic>)['name'];
       cupNoodleNames.add(name);
-    });
+    }
 
     return cupNoodleNames;
   }
@@ -61,10 +61,10 @@ class _RankPageState extends State<RankPage> {
               );
             } else if (snapshot.hasError) {
               // エラーが発生した場合の処理
-              return Text('エラーが発生しました');
+              return const Text('エラーが発生しました');
             } else {
               // データがまだ取得されていない場合の処理
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
           },
         ))
