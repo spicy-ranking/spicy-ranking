@@ -48,6 +48,7 @@ class HistoryPage extends StatelessWidget {
           itemBuilder: (context, index) {
             // index番目から数えて、０〜末尾まで登録されているデータを表示する変数
             final history = historys[index];
+            bool selected = false;
             return ListTile(
               // Historyクラスのメンバ変数を使用する
               title: Text('hot: ${history.hot}'),
@@ -57,9 +58,13 @@ class HistoryPage extends StatelessWidget {
                 spacing: 20,
                 children:[
                   IconButton(
-                    icon: const Icon(Icons.thumb_up),
+                    icon: const Icon(Icons.thumb_up_outlined),
                     color:Colors.red,
-                    onPressed:(){}//good + 1
+                    onPressed:(){
+                        selected = !selected;
+                      },
+                    isSelected: selected,
+                    selectedIcon: const Icon(Icons.thumb_up),//good + 1
                   ),
                   IconButton(
                     icon: const Icon(Icons.thumb_down),
