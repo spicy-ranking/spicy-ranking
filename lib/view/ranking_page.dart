@@ -9,6 +9,7 @@ class Food { //Foodクラス
 
   factory Food.fromMap(Map<String, dynamic> data) {
     return Food(name: data['name'], rate: data['rate']);
+
   }
 }
 
@@ -49,10 +50,10 @@ class RankPage extends StatelessWidget {
               );
             } else if (snapshot.hasError) {
               // エラーが発生した場合の処理
-              return Text('エラーが発生しました');
+              return const Text('エラーが発生しました');
             } else {
               // データがまだ取得されていない場合の処理
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             }
           },
         ))
