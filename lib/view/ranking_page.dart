@@ -1,39 +1,27 @@
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class RankPage extends StatefulWidget {
-  const RankPage({Key? key}) : super(key: key);
+class Food { //Foodクラス
+  final String name;
+  final int rate;
 
-  @override
-  RankPageState createState() => RankPageState();
+  Food({required this.name, required this.rate});
+
+  factory Food.fromMap(Map<String, dynamic> data) {
+    return Food(name: data['name'], rate: data['rate']);
+
+  }
 }
 
-class RankPageState extends State<RankPage> {
-  late Future<List<String>> cupNoodleNamesFuture;
+class RankPage extends StatelessWidget {
+  const RankPage({super.key});
 
-  Future<List<String>> getCupNoodleNames() async {
-    List<String> cupNoodleNames = [];
-
-    // Firestoreコレクションの参照を作成
-    CollectionReference cupNoodleCollection =
-        FirebaseFirestore.instance.collection('spicy-cup-noodle');
-
-    // コレクション内の全てのドキュメントを取得
-    QuerySnapshot querySnapshot = await cupNoodleCollection.get();
-
-    // 各ドキュメントから"name"フィールドを取り出してリストに追加
-    for (var doc in querySnapshot.docs) {
-      String name = (doc.data() as Map<String, dynamic>)['name'];
-      cupNoodleNames.add(name);
-    }
-
-    return cupNoodleNames;
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    cupNoodleNamesFuture = getCupNoodleNames();
+  // Streamを使用して、モデルクラスから、レート降順にデータを取得するメソッド
+  Stream<List<Food>> _fetchFoodsStream() {
+    final firestore = FirebaseFirestore.instance;
+    final stream = firestore.collection('spicy-cup-noodle').orderBy('rate', descending: true).snapshots();
+    return stream.map((snapshot) =>
+        snapshot.docs.map((doc) => Food.fromMap(doc.data())).toList());
   }
 
   @override
@@ -47,16 +35,17 @@ class RankPageState extends State<RankPage> {
           child: Image.asset('images/red_bar.png'),
         ),
         Expanded(
-            child: FutureBuilder<List<String>>(
-          future: cupNoodleNamesFuture,
+            child: StreamBuilder<List<Food>>(
+          stream: _fetchFoodsStream(),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               // データが取得された場合の処理
-              List<String> cupNoodleNames = snapshot.data!;
+              final foods = snapshot.data!;
               return ListView.builder(
-                itemCount: cupNoodleNames.length,
+                itemCount: foods.length,
                 itemBuilder: (context, index) {
-                  return Text(cupNoodleNames[index]);
+                  final food = foods[index];
+                  return Text('No.${index + 1} ${food.name}, ${food.rate}');
                 },
               );
             } else if (snapshot.hasError) {
