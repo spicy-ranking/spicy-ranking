@@ -44,7 +44,7 @@ class RankPage extends StatelessWidget {
                 itemCount: foods.length,
                 itemBuilder: (context, index) {
                   final food = foods[index];
-                  return Text('${food.rate}, ${food.name}');
+                  return Text('No.${index + 1} ${food.name}, ${food.rate}');
                 },
               );
             } else if (snapshot.hasError) {
