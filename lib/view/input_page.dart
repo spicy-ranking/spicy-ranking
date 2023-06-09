@@ -4,6 +4,7 @@ import 'package:spicy_ranking/constant/constants.dart';
 import 'package:spicy_ranking/components/drop_box_hot_menu.dart';
 import '../components/drop_box_product_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'dart:math';
 
 // ignore: must_be_immutable
 class Input extends StatefulWidget {
@@ -17,6 +18,9 @@ class Input extends StatefulWidget {
 class _InputState extends State<Input> {
   String? firstProductName;
   String? secondProductName;
+  String? hotCold;
+  int firstRate = 0;
+  int secondRate = 0;
   callback(String? product) {
     // コールバック関数の引数を追加
     setState(() {
@@ -24,6 +28,8 @@ class _InputState extends State<Input> {
         firstProductName = product;
       } else if (product == secondProductName) {
         secondProductName = product;
+      } else if (product == hotCold) {
+        hotCold = product;
       }
     });
   }
@@ -37,6 +43,12 @@ class _InputState extends State<Input> {
   void updateSecondProductName(String? productName) {
     setState(() {
       secondProductName = productName;
+    });
+  }
+
+  void updateDropBoxHotMenuValue(String? value) {
+    setState(() {
+      hotCold = value;
     });
   }
 
@@ -73,40 +85,118 @@ class _InputState extends State<Input> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
             ),
           ),
-          const DropBoxHotMenu(),
+          DropBoxHotMenu(
+            onHotColdChanged: updateDropBoxHotMenuValue,
+          ),
           Container(
             alignment: Alignment.bottomCenter,
             child: SizedBox(
               width: 100,
               height: 50,
               child: ElevatedButton(
-                onPressed: () {
-                  debugPrint("Press");
+                onPressed: () async {
+                  // 非同期処理を行うためにasyncを追加
                   debugPrint(firstProductName);
                   debugPrint(secondProductName);
-                  if (firstProductName != null && secondProductName != null) {
+                  debugPrint(hotCold);
+                  if (firstProductName != null) {
                     CollectionReference cupNoodleCollection = FirebaseFirestore
                         .instance
                         .collection('spicy-cup-noodle');
 
-                    cupNoodleCollection
-                        .where('name',
-                            whereIn: [firstProductName, secondProductName])
+                    await cupNoodleCollection
+                        .where(FieldPath.documentId,
+                            whereIn: [firstProductName])
                         .get()
                         .then((QuerySnapshot querySnapshot) {
                           if (querySnapshot.docs.isNotEmpty) {
-                            double rate = (querySnapshot.docs[0].data()
+                            firstRate = (querySnapshot.docs.first.data()
                                 as Map<String, dynamic>)['rate'];
-                            debugPrint('Rate: $rate');
+                            debugPrint('First Rate: $firstRate');
                           } else {
-                            debugPrint('No matching documents.');
+                            debugPrint('No documents1.');
                           }
                         });
                   } else {
-                    () {
-                      debugPrint("these are null");
-                    };
+                    debugPrint("these are null");
                   }
+
+                  if (secondProductName != null) {
+                    CollectionReference cupNoodleCollection = FirebaseFirestore
+                        .instance
+                        .collection('spicy-cup-noodle');
+
+                    await cupNoodleCollection
+                        .where(FieldPath.documentId,
+                            whereIn: [secondProductName])
+                        .get()
+                        .then((QuerySnapshot querySnapshot) {
+                          if (querySnapshot.docs.isNotEmpty) {
+                            secondRate = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['rate'];
+                            debugPrint('Second Rate: $secondRate');
+                          } else {
+                            debugPrint('No documents2.');
+                          }
+                        });
+                  } else {
+                    debugPrint("these are null");
+                  }
+
+                  if (hotCold == "辛い") {
+                    int deltaRate =
+                        32 ~/ ((pow(10, (firstRate - secondRate) / 400)) + 1);
+                    firstRate = firstRate + deltaRate;
+                    secondRate = secondRate - deltaRate;
+                  } else if (hotCold == "辛くない") {
+                    int deltaRate =
+                        32 ~/ ((pow(10, (secondRate - firstRate) / 400)) + 1);
+                    firstRate = firstRate - deltaRate;
+                    secondRate = secondRate + deltaRate;
+                  }
+
+                  debugPrint('New First Rate: $firstRate');
+                  debugPrint('New Second Rate: $secondRate');
+
+                  if (firstProductName != null) {
+                    CollectionReference cupNoodleCollection = FirebaseFirestore
+                        .instance
+                        .collection('spicy-cup-noodle');
+
+                    await cupNoodleCollection
+                        .where(FieldPath.documentId,
+                            whereIn: [firstProductName])
+                        .get()
+                        .then((QuerySnapshot querySnapshot) {
+                          querySnapshot.docs.first.reference
+                              .update({'rate': firstRate}).then((_) {
+                            debugPrint('First Rate updated successfully');
+                          }).catchError((error) {
+                            debugPrint('Failed to update First Rate: $error');
+                          });
+                        });
+                  }
+
+                  if (secondProductName != null) {
+                    CollectionReference cupNoodleCollection = FirebaseFirestore
+                        .instance
+                        .collection('spicy-cup-noodle');
+
+                    await cupNoodleCollection
+                        .where(FieldPath.documentId,
+                            whereIn: [secondProductName])
+                        .get()
+                        .then((QuerySnapshot querySnapshot) {
+                          querySnapshot.docs.first.reference
+                              .update({'rate': secondRate}).then((_) {
+                            debugPrint('Second Rate updated successfully');
+                          }).catchError((error) {
+                            debugPrint('Failed to update Second Rate: $error');
+                          });
+                        });
+                  }
+
+                  // ignore: use_build_context_synchronously
                   Navigator.push(
                       context,
                       MaterialPageRoute(

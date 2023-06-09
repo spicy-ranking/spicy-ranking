@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class DropBoxMenu extends StatelessWidget {
-  final void Function(String?) onChanged;
+  final void Function(String?) onHotColdChanged;
   final String labelText;
   final String collectionName;
 
   const DropBoxMenu({
-    required this.onChanged,
+    required this.onHotColdChanged,
     required this.labelText,
     required this.collectionName,
     Key? key,
@@ -22,7 +22,7 @@ class DropBoxMenu extends StatelessWidget {
           final items =
               snapshot.data!.docs.map((doc) => doc['name'] as String).toList();
           return DropdownButtonFormField<String>(
-            onChanged: onChanged,
+            onChanged: onHotColdChanged,
             decoration: InputDecoration(
               labelText: labelText,
               border: const OutlineInputBorder(),
