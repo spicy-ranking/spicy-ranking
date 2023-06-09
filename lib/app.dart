@@ -62,7 +62,7 @@ class TabPage extends StatelessWidget {
 
   // コンストラクタの作成(titleとiconを引数にして親クラスを継承)
   const TabPage({
-    super.key, 
+    super.key,
     required this.title,
   });
 
