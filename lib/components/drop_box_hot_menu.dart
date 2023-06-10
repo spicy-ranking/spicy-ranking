@@ -4,14 +4,16 @@ import 'package:spicy_ranking/constant/constants.dart';
 const List<String> hotChoices = <String>['辛い', '辛くない'];
 
 class DropBoxHotMenu extends StatefulWidget {
-  const DropBoxHotMenu({Key? key}) : super(key: key);
+  final ValueChanged<String>? onHotColdChanged; // コールバック関数の型を修正
+  const DropBoxHotMenu({Key? key, this.onHotColdChanged}) : super(key: key);
 
   @override
   State<DropBoxHotMenu> createState() => _DropBoxHotMenu();
 }
 
 class _DropBoxHotMenu extends State<DropBoxHotMenu> {
-  String isSelectedValue = hotChoices.first;
+  String? isSelectedValue;
+  String? hotCold = "辛い";
 
   @override
   Widget build(BuildContext context) {
@@ -28,6 +30,8 @@ class _DropBoxHotMenu extends State<DropBoxHotMenu> {
       onChanged: (String? value) {
         setState(() {
           isSelectedValue = value!;
+          hotCold = value;
+          widget.onHotColdChanged?.call(hotCold!);
         });
       },
     );

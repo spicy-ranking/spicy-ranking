@@ -1,21 +1,45 @@
+import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-// Firestoreコレクションの参照を作成
-CollectionReference cupNoodleCollection =
-    FirebaseFirestore.instance.collection('spicy-cup-noodle');
+class DropBoxMenu extends StatelessWidget {
+  final void Function(String?) onHotColdChanged;
+  final String labelText;
+  final String collectionName;
 
-// "CupNoodleNames"という名前のリストを取得する関数
-Future<List<String>> getCupNoodleNames() async {
-  List<String> cupNoodleNames = [];
+  const DropBoxMenu({
+    required this.onHotColdChanged,
+    required this.labelText,
+    required this.collectionName,
+    Key? key,
+  }) : super(key: key);
 
-  // コレクション内の全てのドキュメントを取得
-  QuerySnapshot querySnapshot = await cupNoodleCollection.get();
-
-  // 各ドキュメントから"name"フィールドを取り出してリストに追加
-  querySnapshot.docs.forEach((doc) {
-    String name = (doc.data() as Map<String, dynamic>)['name'];
-    cupNoodleNames.add(name);
-  });
-
-  return cupNoodleNames;
+  @override
+  Widget build(BuildContext context) {
+    return StreamBuilder<QuerySnapshot>(
+      stream: FirebaseFirestore.instance.collection(collectionName).snapshots(),
+      builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+        if (snapshot.hasData) {
+          final items =
+              snapshot.data!.docs.map((doc) => doc['name'] as String).toList();
+          return DropdownButtonFormField<String>(
+            onChanged: onHotColdChanged,
+            decoration: InputDecoration(
+              labelText: labelText,
+              border: const OutlineInputBorder(),
+            ),
+            items: items.map<DropdownMenuItem<String>>((String value) {
+              return DropdownMenuItem<String>(
+                value: value,
+                child: Text(value),
+              );
+            }).toList(),
+          );
+        } else if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          return const CircularProgressIndicator();
+        }
+      },
+    );
+  }
 }

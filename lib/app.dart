@@ -3,13 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:spicy_ranking/view/input_page.dart';
 import 'package:spicy_ranking/view/ranking_page.dart';
 import 'package:spicy_ranking/view/history_page.dart';
+import 'package:spicy_ranking/view/start_page.dart';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({Key? key}) : super(key: key);
 
-  // タブバーとそれに連動するタブページを表示する
+  // start_pageを表示
   @override
-  TabBarPageState createState() => TabBarPageState();
+  StartPageState createState() => StartPageState();
+
+  // タブバーとそれに連動するタブページを表示する
+  // @override
+  // TabBarPageState createState() => TabBarPageState();
 
   // ページを表示するだけの
   // Widget build(BuildContext context) {
@@ -27,6 +32,17 @@ class AppScreen extends StatefulWidget {
   //     elevation: 10,
   //   );
   // }
+}
+
+class StartPageState extends State<AppScreen> {
+
+  @override
+  Widget build(BuildContext context) {
+    return const Scaffold(
+      body: Start(),
+    );
+  }
+
 }
 
 class TabBarPageState extends State<AppScreen> {
@@ -64,7 +80,7 @@ class TabPage extends StatelessWidget {
 
   // コンストラクタの作成(titleとiconを引数にして親クラスを継承)
   const TabPage({
-    super.key, 
+    super.key,
     required this.title,
   });
 
