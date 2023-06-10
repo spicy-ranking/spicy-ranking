@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:spicy_ranking/routing/start_route.dart';
 
 class Start extends StatelessWidget {
   const Start({Key? key}) : super(key: key);
@@ -30,7 +31,12 @@ class Start extends StatelessWidget {
               width: 250,
               height: 120,
               child: ElevatedButton(
-                onPressed: () {/* ボタンが押された時の処理 */},
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const StartRoute()),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.lightGreenAccent[400],
                   shape: RoundedRectangleBorder(

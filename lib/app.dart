@@ -1,5 +1,6 @@
 // 最初に表示される画面
 import 'package:flutter/material.dart';
+import 'package:spicy_ranking/routing/start_route.dart';
 import 'package:spicy_ranking/view/input_page.dart';
 import 'package:spicy_ranking/view/ranking_page.dart';
 import 'package:spicy_ranking/view/start_page.dart';
@@ -44,7 +45,7 @@ class StartPageState extends State<AppScreen> {
 
 }
 
-class TabBarPageState extends State<AppScreen> {
+class TabBarPageState extends State<StartRoute> {
   // タブバーで表示するアイコンのリストを_tabに格納
   final tab = <Tab>[
     const Tab(text: "Ranking"),
