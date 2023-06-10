@@ -66,7 +66,7 @@ class HistoryPage extends StatelessWidget {
                     )
                   ),
                   OutlinedButton.icon(
-                    onPressed:() {history.bad += 1;},
+                    onPressed:() {},
                     icon: const Icon(Icons.thumb_down),
                     label:Text('${history.bad}'),
                     style:OutlinedButton.styleFrom(
