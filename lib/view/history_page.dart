@@ -2,10 +2,10 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class History { //履歴クラス
-  final String hot; //辛いもの
-  final String cold; //辛くないもの
-  final int good; //賛成数
-  final int bad; //反対数
+  late String hot; //辛いもの
+  late String cold; //辛くないもの
+  late int good; //賛成数
+  late int bad; //反対数
 
   History({required this.hot, required this.cold, required this.good, required this.bad});
 
@@ -44,34 +44,37 @@ class HistoryPage extends StatelessWidget {
         final historys = snapshot.data!;
         return ListView.builder(
           // Listのデータの数を数える
+          itemExtent: 80,
           itemCount: historys.length,
           itemBuilder: (context, index) {
             // index番目から数えて、０〜末尾まで登録されているデータを表示する変数
             final history = historys[index];
-            bool selected = false;
             return ListTile(
               // Historyクラスのメンバ変数を使用する
-              title: Text('hot: ${history.hot}'),
-              subtitle: Text('cold: ${history.cold}'),
+              title: Text('🥵: ${history.hot}'),
+              subtitle: Text('🙂: ${history.cold}'),
               leading: const Icon(Icons.account_circle),
               trailing: Wrap(
-                spacing: 20,
-                children:[
-                  IconButton(
-                    icon: const Icon(Icons.thumb_up_outlined),
-                    color:Colors.red,
-                    onPressed:(){
-                        selected = !selected;
-                      },
-                    isSelected: selected,
-                    selectedIcon: const Icon(Icons.thumb_up),//good + 1
+                
+                children: [
+                  OutlinedButton.icon(
+                    onPressed:() {},
+                    icon: const Icon(Icons.thumb_up),
+                    label:Text('${history.good}'),
+                    style:OutlinedButton.styleFrom(
+                      primary:Colors.red,
+                    )
                   ),
-                  IconButton(
+                  OutlinedButton.icon(
+                    onPressed:() {history.bad += 1;},
                     icon: const Icon(Icons.thumb_down),
-                    color:Colors.blue,
-                    onPressed: (){}//bad + 1)
-                  )
-                ]
+                    label:Text('${history.bad}'),
+                    style:OutlinedButton.styleFrom(
+                      primary: Colors.blue,
+                    )
+                  ),
+
+                ],
               )
             );
           },
