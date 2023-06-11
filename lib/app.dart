@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spicy_ranking/routing/start_route.dart';
 import 'package:spicy_ranking/view/input_page.dart';
 import 'package:spicy_ranking/view/ranking_page.dart';
+import 'package:spicy_ranking/view/history_page.dart';
 import 'package:spicy_ranking/view/start_page.dart';
 
 class AppScreen extends StatefulWidget {
@@ -50,6 +51,7 @@ class TabBarPageState extends State<StartRoute> {
   final tab = <Tab>[
     const Tab(text: "Ranking"),
     const Tab(text: "Input"),
+    const Tab(text: "History")
   ];
 
   // TabBar,TabBarView, DefaultTabControllerを使い、タブバーとそれに連動するタブページを表示
@@ -61,12 +63,12 @@ class TabBarPageState extends State<StartRoute> {
         appBar: AppBar(
           title: const Text('SPICY-RANKING'),
           backgroundColor: Colors.red[400],
-          // elevatino: widgetが浮いてるような影をつける
+          // elevation: widgetが浮いてるような影をつける
           elevation: 10,
           bottom: TabBar(tabs: tab),
         ),
         body: const TabBarView(
-          children: <Widget>[RankPage(), Input()],
+          children: <Widget>[RankPage(), Input(), HistoryPage()],
         ),
       ),
     );
