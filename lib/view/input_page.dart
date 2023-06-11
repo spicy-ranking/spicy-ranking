@@ -19,6 +19,8 @@ class _InputState extends State<Input> {
   String? firstProductName;
   String? secondProductName;
   String? hotCold;
+  String? firstProductNameHis; //履歴用
+  String? secondProductNameHis; //履歴用
   int firstRate = 0;
   int secondRate = 0;
   callback(String? product) {
@@ -112,6 +114,8 @@ class _InputState extends State<Input> {
                           if (querySnapshot.docs.isNotEmpty) {
                             firstRate = (querySnapshot.docs.first.data()
                                 as Map<String, dynamic>)['rate'];
+                            firstProductNameHis = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['name'];
                             debugPrint('First Rate: $firstRate');
                           } else {
                             debugPrint('No documents1.');
@@ -134,6 +138,8 @@ class _InputState extends State<Input> {
                           if (querySnapshot.docs.isNotEmpty) {
                             secondRate = (querySnapshot.docs.first.data()
                                 as Map<String, dynamic>)['rate'];
+                            secondProductNameHis = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['name'];
                             debugPrint('Second Rate: $secondRate');
                           } else {
                             debugPrint('No documents2.');
@@ -142,17 +148,34 @@ class _InputState extends State<Input> {
                   } else {
                     debugPrint("these are null");
                   }
-
+                  
                   if (hotCold == "辛い") {
                     int deltaRate =
                         32 ~/ ((pow(10, (firstRate - secondRate) / 400)) + 1);
                     firstRate = firstRate + deltaRate;
                     secondRate = secondRate - deltaRate;
+
+                    // 履歴データ追加
+                    FirebaseFirestore.instance.collection('history').add({
+                    'hot' : firstProductNameHis,
+                    'cold' : secondProductNameHis,
+                    'good' : 0,
+                    'bad' : 0,
+                    });
+
                   } else if (hotCold == "辛くない") {
                     int deltaRate =
                         32 ~/ ((pow(10, (secondRate - firstRate) / 400)) + 1);
                     firstRate = firstRate - deltaRate;
                     secondRate = secondRate + deltaRate;
+
+                    // 履歴データ追加
+                    FirebaseFirestore.instance.collection('history').add({
+                    'hot' : secondProductNameHis,
+                    'cold' : firstProductNameHis,
+                    'good' : 0,
+                    'bad' : 0,
+                    });
                   }
 
                   debugPrint('New First Rate: $firstRate');
