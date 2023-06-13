@@ -1,10 +1,11 @@
 import 'package:spicy_ranking/routing/calcurate.dart';
+import 'package:flutter/material.dart';
 
 void main(){
 
   // player設定(ここはfirebaseから持ってくる)
-  final player1 = setPlayer();
-  final player2 = setPlayer();
+  final player1 = setPlayer(1500, 350, 0.06);
+  final player2 = setPlayer(1500, 350, 0.06);
 
   // 計算できるように成型
   final players = <Player>[player1, player2];
@@ -13,14 +14,14 @@ void main(){
 
   final newPlayers = calcRatings(players, ranks);
 
-  print("===loser=== \n rating: ${newPlayers[0].rating}");
-  print("===winner=== \n rating: ${newPlayers[1].rating}");
+  debugPrint("===loser=== \n rating: ${newPlayers[0].rating}");
+  debugPrint("===winner=== \n rating: ${newPlayers[1].rating}");
 }
 
 // プレイヤーのパラメータを設定する関数
 /// 変数rating, rd, volはそれぞれrating、rating deviation、rating volatilityの初期値
 /// playerオブジェクトを1つ返す
-setPlayer({double rating = 1500, double rd = 350, double vol = 0.06}) {
+setPlayer(double rating, double rd, double vol) {
   final player = Player();
   player.rating = rating;
   player.rd = rd;
