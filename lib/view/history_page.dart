@@ -62,19 +62,25 @@ List valueFunction(int firstRate, int secondRate, bool firstWin){
         final historys = snapshot.data!;
         return ListView.builder(
           // Listのデータの数を数える
-          itemExtent: 80,
-          itemCount: historys.length,
+          itemExtent: 140,
+          itemCount: historys.length >= 15 ? 15: historys.length, //最大20個履歴表示
+
           itemBuilder: (context, index) {
             // index番目から数えて、０〜末尾まで登録されているデータを表示する変数
             final history = historys[index];
 
-            return ListTile(
+            return Column(
+              children: [
+                ListTile(
               // Historyクラスのメンバ変数を使用する
               title: Text('🥵: ${history.hot}'),
               subtitle: Text('🙂: ${history.cold}'),
               leading: const Icon(Icons.account_circle),
-              trailing: Wrap(
-                children: [
+              //contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8), // ボタンとの余白を設定
+            ),
+            Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [                 
                   //いいねボタン
                   OutlinedButton.icon(
                     onPressed:() async{
@@ -135,8 +141,12 @@ List valueFunction(int firstRate, int secondRate, bool firstWin){
                     label:Text('${history.good}'),
                     style:OutlinedButton.styleFrom(
                       primary:Colors.red,
+                      //minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+
                     )
                   ),
+                  SizedBox(width: 20), //横幅調整
                  //よくないねボタン
                   OutlinedButton.icon(
                     onPressed:() async{
@@ -198,10 +208,21 @@ List valueFunction(int firstRate, int secondRate, bool firstWin){
                     label:Text('${history.bad}'),
                     style:OutlinedButton.styleFrom(
                       primary: Colors.blue,
+                      //minimumSize: Size.zero,
+                      padding: EdgeInsets.zero,
+                      
                     )
                   ),
                 ],
-              )
+              ),
+              SizedBox(height: 10),
+              const Divider(
+                height: 1,
+                thickness: 2,
+                color: Colors.grey,
+              ),
+              //SizedBox(height: 10),
+              ],
             );
           },
         );

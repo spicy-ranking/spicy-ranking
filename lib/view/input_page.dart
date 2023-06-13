@@ -64,8 +64,8 @@ class _InputState extends State<Input> {
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin),
             child: Text(
-              "Input",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
+              "辛いものと辛くないものを入力",
+              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
             ),
           ),
           DropdownButtonProductMenu1(

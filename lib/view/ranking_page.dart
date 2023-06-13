@@ -4,11 +4,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Food { //Foodクラス
   final String name;
   final int rate;
+  final String image;
 
-  Food({required this.name, required this.rate});
+  Food({required this.name, required this.rate, required this.image});
 
   factory Food.fromMap(Map<String, dynamic> data) {
-    return Food(name: data['name'], rate: data['rate']);
+    return Food(name: data['name'], rate: data['rate'], image: data['image']);
 
   }
 }
@@ -29,11 +30,11 @@ class RankPage extends StatelessWidget {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(
-          height: 500,
-          width: 100, // 画像の幅を指定
-          child: Image.asset('images/red_bar.png'),
-        ),
+        // SizedBox(
+        //   height: 500,
+        //   width: 100, // 画像の幅を指定
+        //   child: Image.asset('images/red_bar.png'),
+        // ),
         Expanded(
             child: StreamBuilder<List<Food>>(
           stream: _fetchFoodsStream(),
@@ -45,7 +46,24 @@ class RankPage extends StatelessWidget {
                 itemCount: foods.length,
                 itemBuilder: (context, index) {
                   final food = foods[index];
-                  return Text('No.${index + 1} ${food.name}, ${food.rate}');
+                  return ListTile(
+                    leading: CircleAvatar(
+                      child: Text("${index + 1}",
+                      style: TextStyle(
+                        color: Colors.white,
+                      )), // ランキング順位
+                      backgroundColor: Colors.red[900 - 100 * (index ~/ 1.5)],
+                    ),
+                    title: Text('${food.name}'), // ランキングアイテムの名前
+                    subtitle: Text('レート: ${food.rate}'), // ランキングアイテムの詳細情報
+                    onTap:(){
+                      //画像
+                    },
+                    trailing: food.image != '' ?
+                      Image.asset('images/${food.image.toString()}')
+                      : Image.asset('images/404.jpeg'),
+
+                  );
                 },
               );
             } else if (snapshot.hasError) {
