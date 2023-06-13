@@ -21,8 +21,8 @@ def main():
     #     print("辛い：", doc.get('hot'))
     
     # player設定(ここはfirebaseから持ってくる)
-    player1 = setPlayer(1400,30,0.06)
-    player2 = setPlayer(1550,100,0.06)
+    player1 = setPlayer()
+    player2 = setPlayer()
     
     # 計算できるように成型
     players = [player1, player2]
@@ -31,8 +31,8 @@ def main():
 
     newPlayers = calcRatings(players,ranks)
 
-    print("===loser=== \n rating: ",newPlayers[0].rating)
-    print("===winner=== \nrating: ",newPlayers[1].rating)
+    print("===loser=== \n rating: ",newPlayers[0].rating,newPlayers[0].rd,newPlayers[0].vol)
+    print("===winner=== \nrating: ",newPlayers[1].rating,newPlayers[1].rd,newPlayers[1].vol)
 
     
 

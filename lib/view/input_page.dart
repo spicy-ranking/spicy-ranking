@@ -150,6 +150,7 @@ class _InputState extends State<Input> {
                     debugPrint("these are null");
                   }
                   
+                  // ---ここから評価・送信---
                   if (hotCold == "辛い") {
                     int deltaRate =
                         32 ~/ ((pow(10, (firstRate - secondRate) / 400)) + 1);
@@ -178,6 +179,8 @@ class _InputState extends State<Input> {
                     'bad' : 0,
                     });
                   }
+
+                  // ---ここまで評価---
 
                   debugPrint('New First Rate: $firstRate');
                   debugPrint('New Second Rate: $secondRate');
