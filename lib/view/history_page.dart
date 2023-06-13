@@ -62,7 +62,7 @@ List valueFunction(int firstRate, int secondRate, bool firstWin){
         final historys = snapshot.data!;
         return ListView.builder(
           // Listのデータの数を数える
-          itemExtent: 80,
+          itemExtent: 100,
           itemCount: historys.length,
           itemBuilder: (context, index) {
             // index番目から数えて、０〜末尾まで登録されているデータを表示する変数
@@ -135,6 +135,7 @@ List valueFunction(int firstRate, int secondRate, bool firstWin){
                     label:Text('${history.good}'),
                     style:OutlinedButton.styleFrom(
                       primary:Colors.red,
+
                     )
                   ),
                  //よくないねボタン
