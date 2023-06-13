@@ -61,6 +61,7 @@ class _InputState extends State<Input> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
+          const SizedBox(height: 30),
           const Text('商品名1'),
           DropdownButtonProductMenu1(
             onProductChanged: updateFirstProductName,
