@@ -24,6 +24,7 @@ class _InputState extends State<Input> {
   String? secondProductNameHis; //履歴用
   int firstRate = 0;
   int secondRate = 0;
+  DateTime now = DateTime.now();
   callback(String? product) {
     // コールバック関数の引数を追加
     setState(() {
@@ -162,6 +163,7 @@ class _InputState extends State<Input> {
                     'cold' : secondProductNameHis,
                     'good' : 0,
                     'bad' : 0,
+                    'time' : now.millisecondsSinceEpoch ~/ 1000,
                     });
 
                   } else if (hotCold == "辛くない") {
@@ -176,6 +178,7 @@ class _InputState extends State<Input> {
                     'cold' : firstProductNameHis,
                     'good' : 0,
                     'bad' : 0,
+                    'time' : now.millisecondsSinceEpoch ~/ 1000,
                     });
                   }
 
