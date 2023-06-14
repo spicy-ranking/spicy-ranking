@@ -60,15 +60,10 @@ class _InputState extends State<Input> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-            child: Text(
-              "辛いものと辛くないものを入力",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          ),
+          const SizedBox(height: 30),
+          const Text('商品名1'),
           DropdownButtonProductMenu1(
             onProductChanged: updateFirstProductName,
           ),
@@ -79,6 +74,8 @@ class _InputState extends State<Input> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
             ),
           ),
+          const SizedBox(height: 30),
+          const Text('商品名2'),
           DropdownButtonProductMenu2(
             onProductChanged: updateSecondProductName,
           ),
