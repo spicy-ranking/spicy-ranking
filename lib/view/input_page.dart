@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 // import 'package:spicy_ranking/app.dart';
 import 'package:spicy_ranking/constant/constants.dart';
-import 'package:spicy_ranking/components/drop_box_hot_menu.dart';
+//import 'package:spicy_ranking/components/drop_box_hot_menu.dart';
 import 'package:spicy_ranking/routing/calcurate.dart';
 import 'package:spicy_ranking/routing/start_route.dart';
 import 'package:spicy_ranking/routing/send_route.dart';
@@ -38,9 +38,9 @@ class _InputState extends State<Input> {
         firstProductName = product;
       } else if (product == secondProductName) {
         secondProductName = product;
-      } else if (product == hotCold) {
-        hotCold = product;
-      }
+      } //else if (product == hotCold) {
+      //   hotCold = product;
+     // }
     });
   }
 
@@ -56,11 +56,11 @@ class _InputState extends State<Input> {
     });
   }
 
-  void updateDropBoxHotMenuValue(String? value) {
-    setState(() {
-      hotCold = value;
-    });
-  }
+  // void updateDropBoxHotMenuValue(String? value) {
+  //   setState(() {
+  //     hotCold = value;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -92,16 +92,16 @@ class _InputState extends State<Input> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
             ),
           ),
-          DropBoxHotMenu(
-            onHotColdChanged: updateDropBoxHotMenuValue,
-          ),
-          Container(
-            alignment: Alignment.bottomCenter,
-            child: SizedBox(
-              width: 100,
-              height: 50,
-              child: ElevatedButton(
-                onPressed: () async {
+          // DropBoxHotMenu(
+          //   onHotColdChanged: updateDropBoxHotMenuValue,
+          // ),
+          const SizedBox(height: 50),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+                ElevatedButton(
+                  onPressed: () async{
+                  hotCold = '辛い';
                   // 非同期処理を行うためにasyncを追加
                   debugPrint(firstProductName);
                   debugPrint(secondProductName);
@@ -162,7 +162,6 @@ class _InputState extends State<Input> {
                   }
                   
                   // ---ここから評価・送信---
-                  if (hotCold == "辛い") {
                     // int deltaRate =
                     //     32 ~/ ((pow(10, (firstRate - secondRate) / 400)) + 1);
                     // firstRate = firstRate + deltaRate;
@@ -198,8 +197,137 @@ class _InputState extends State<Input> {
                     'bad' : 0,
                     'time' : now.millisecondsSinceEpoch ~/ 1000,
                     });
+                  // ---ここまで評価---
 
-                  } else if (hotCold == "辛くない") {
+                  // 値が更新されているのか確認
+                  debugPrint('New First Rate: $firstRate');
+                  debugPrint('New Second Rate: $secondRate');
+
+                  if (firstProductName != null) {
+                    CollectionReference cupNoodleCollection = FirebaseFirestore
+                        .instance
+                        .collection('spicy-cup-noodle');
+
+                    await cupNoodleCollection
+                        .where(FieldPath.documentId,
+                            whereIn: [firstProductName])
+                        .get()
+                        .then((QuerySnapshot querySnapshot) {
+                          querySnapshot.docs.first.reference
+                              .update({'rate': firstRate, 'rd': firstRd, 'vol': firstVol}).then((_) {
+                            debugPrint('First Rate updated successfully');
+                          }).catchError((error) {
+                            debugPrint('Failed to update First Rate: $error');
+                          });
+                        });
+                  }
+
+                  if (secondProductName != null) {
+                    CollectionReference cupNoodleCollection = FirebaseFirestore
+                        .instance
+                        .collection('spicy-cup-noodle');
+
+                    await cupNoodleCollection
+                        .where(FieldPath.documentId,
+                            whereIn: [secondProductName])
+                        .get()
+                        .then((QuerySnapshot querySnapshot) {
+                          querySnapshot.docs.first.reference
+                              .update({'rate': secondRate, 'rd': secondRd, 'vol': secondVol}).then((_) {
+                            debugPrint('Second Rate updated successfully');
+                          }).catchError((error) {
+                            debugPrint('Failed to update Second Rate: $error');
+                          });
+                        });
+                  }
+                  // ignore: use_build_context_synchronously
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const StartRoute()));
+                },
+                  style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.redAccent[400],
+                  fixedSize: const Size(80, 32),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  ),
+                  child: const Text('辛い'),
+                ),
+
+                const SizedBox(width: 70),
+
+                ElevatedButton(
+                onPressed: () async {
+                  hotCold = '辛くない';
+                  // 非同期処理を行うためにasyncを追加
+                  debugPrint(firstProductName);
+                  debugPrint(secondProductName);
+                  debugPrint(hotCold);
+                  if (firstProductName != null) {
+                    CollectionReference cupNoodleCollection = FirebaseFirestore
+                      .instance
+                      .collection('spicy-cup-noodle');
+                      await cupNoodleCollection
+                        .where(FieldPath.documentId,
+                            whereIn: [firstProductName])
+                        .get()
+                        .then((QuerySnapshot querySnapshot) {
+                          if (querySnapshot.docs.isNotEmpty) {
+                            firstRate = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['rate'];
+                            firstRd = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['rd'];
+                            firstVol = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['vol'];
+                            firstProductNameHis = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['name'];
+                            debugPrint('First Rate: $firstRate');
+                          } else {
+                            debugPrint('No documents1.');
+                          }
+                        });
+                  } else {
+                    debugPrint("these are null");
+                  }
+
+                  if (secondProductName != null) {
+                    CollectionReference cupNoodleCollection = FirebaseFirestore
+                        .instance
+                        .collection('spicy-cup-noodle');
+
+                    await cupNoodleCollection
+                        .where(FieldPath.documentId,
+                            whereIn: [secondProductName])
+                        .get()
+                        .then((QuerySnapshot querySnapshot) {
+                          if (querySnapshot.docs.isNotEmpty) {
+                            secondRate = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['rate'];
+                            secondRd = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['rd'];
+                            secondVol = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['vol'];
+                            secondProductNameHis = (querySnapshot.docs.first.data()
+                                as Map<String, dynamic>)['name'];
+                            debugPrint('Second Rate: $secondRate');
+                          } else {
+                            debugPrint('No documents2.');
+                          }
+                        });
+                  } else {
+                    debugPrint("these are null");
+                  }
+                  
+                  // ---ここから評価・送信---
+                    //イロ辛い
+                    // int deltaRate =
+                    //     32 ~/ ((pow(10, (firstRate - secondRate) / 400)) + 1);
+                    // firstRate = firstRate + deltaRate;
+                    // secondRate = secondRate - deltaRate;
+
+                    //イロ辛くない
                     // int deltaRate =
                     //     32 ~/ ((pow(10, (secondRate - firstRate) / 400)) + 1);
                     // firstRate = firstRate - deltaRate;
@@ -235,7 +363,6 @@ class _InputState extends State<Input> {
                     'bad' : 0,
                     'time' : now.millisecondsSinceEpoch ~/ 1000,
                     });
-                  }
 
                   // ---ここまで評価---
 
@@ -288,17 +415,17 @@ class _InputState extends State<Input> {
                           builder: (context) => const StartRoute()));
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.lightGreenAccent[400],
+                  backgroundColor: Colors.lightBlueAccent[400],
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-                child: const Text('送信'),
+                child: const Text('辛くない'),
               ),
+            ],
             ),
+          ],
           ),
-        ],
-      ),
-    );
+      );
   }
 }
