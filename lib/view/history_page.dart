@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'dart:math';
+import 'package:timeago/timeago.dart' as timeAgo; //時間差分計算用パッケージ
 
 class History { //履歴クラス
   late String id; // ドキュメントID
@@ -8,11 +9,12 @@ class History { //履歴クラス
   late String cold; //辛くないもの
   late int good; //賛成数
   late int bad; //反対数
+  late int time; //入力された時間
 
-  History({required this.id, required this.hot, required this.cold, required this.good, required this.bad});
+  History({required this.id, required this.hot, required this.cold, required this.good, required this.bad, required this.time});
 
   factory History.fromMap(String id, Map<String, dynamic> data) {
-    return History(id: id, hot: data['hot'], cold: data['cold'], good: data['good'], bad: data['bad']);
+    return History(id: id, hot: data['hot'], cold: data['cold'], good: data['good'], bad: data['bad'], time: data['time']);
   }
 }
 
@@ -22,7 +24,7 @@ class HistoryPage extends StatelessWidget {
   // Streamを使用して、モデルクラスから、データを取得するメソッド
   Stream<List<History>> _fetchHistorysStream() {
     final firestore = FirebaseFirestore.instance;
-    final stream = firestore.collection('history').snapshots();
+    final stream = firestore.collection('history').orderBy('time', descending:true).snapshots(); //時系列順に取得
     return stream.map((snapshot) => snapshot.docs.map((doc) {
           final historyId = doc.id;
           return History.fromMap(historyId, doc.data());
@@ -44,6 +46,15 @@ List valueFunction(int firstRate, int secondRate, bool firstWin){
   return [firstRate, secondRate];
 }
 
+//時間の差分計算
+String createTimeAgoString(int timestamp) {
+  timeAgo.setLocaleMessages("ja", timeAgo.JaMessages());
+  final now = DateTime.now();
+  DateTime postDateTime =  DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  final difference = now.difference(postDateTime);
+  return timeAgo.format(now.subtract(difference), locale: "ja");
+}
+
   @override
   Widget build(BuildContext context) {
     // ListとHistoryクラスを指定する
@@ -60,10 +71,11 @@ List valueFunction(int firstRate, int secondRate, bool firstWin){
         }
 
         final historys = snapshot.data!;
+        
         return ListView.builder(
           // Listのデータの数を数える
           itemExtent: 140,
-          itemCount: historys.length >= 15 ? 15: historys.length, //最大20個履歴表示
+          itemCount: historys.length >= 15 ? 15: historys.length, //最大15個履歴表示
 
           itemBuilder: (context, index) {
             // index番目から数えて、０〜末尾まで登録されているデータを表示する変数
@@ -76,6 +88,7 @@ List valueFunction(int firstRate, int secondRate, bool firstWin){
               title: Text('🥵: ${history.hot}'),
               subtitle: Text('🙂: ${history.cold}'),
               leading: const Icon(Icons.account_circle),
+              trailing: Text(createTimeAgoString(history.time)),
               //contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8), // ボタンとの余白を設定
             ),
             Row(

@@ -29,6 +29,8 @@ class _InputState extends State<Input> {
   int secondRate = 0;
   int secondRd = 0;
   double secondVol = 0; // firebase 登録の値が少数だからdouble型
+  DateTime now = DateTime.now();
+
   callback(String? product) {
     // コールバック関数の引数を追加
     setState(() {
@@ -64,15 +66,10 @@ class _InputState extends State<Input> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-            child: Text(
-              "辛いものと辛くないものを入力",
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-            ),
-          ),
+          const SizedBox(height: 30),
+          const Text('商品名1'),
           DropdownButtonProductMenu1(
             onProductChanged: updateFirstProductName,
           ),
@@ -83,6 +80,8 @@ class _InputState extends State<Input> {
               style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
             ),
           ),
+          const SizedBox(height: 30),
+          const Text('商品名2'),
           DropdownButtonProductMenu2(
             onProductChanged: updateSecondProductName,
           ),
@@ -197,6 +196,7 @@ class _InputState extends State<Input> {
                     'cold' : secondProductNameHis,
                     'good' : 0,
                     'bad' : 0,
+                    'time' : now.millisecondsSinceEpoch ~/ 1000,
                     });
 
                   } else if (hotCold == "辛くない") {
@@ -233,6 +233,7 @@ class _InputState extends State<Input> {
                     'cold' : firstProductNameHis,
                     'good' : 0,
                     'bad' : 0,
+                    'time' : now.millisecondsSinceEpoch ~/ 1000,
                     });
                   }
 

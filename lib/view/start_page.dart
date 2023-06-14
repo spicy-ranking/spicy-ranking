@@ -10,19 +10,12 @@ class Start extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const Padding(
+           Padding(
             // 水平方向にpaddingが入っている
             padding: EdgeInsets.symmetric(vertical: 100),
             child: Align(
               alignment: Alignment.center,
-              child: Text(
-                "SPICY-RANKINGへ\nようこそ",
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.bold, 
-                  fontSize: 36
-                ),
-              ),
+              child: Image.asset('images/spicy-ranking_logo.png'),
             ),
           ),
           Container(
