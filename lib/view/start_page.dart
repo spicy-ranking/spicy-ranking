@@ -12,7 +12,7 @@ class Start extends StatelessWidget {
         children: [
            Padding(
             // 水平方向にpaddingが入っている
-            padding: EdgeInsets.symmetric(vertical: 100),
+            padding: const EdgeInsets.symmetric(vertical: 100),
             child: Align(
               alignment: Alignment.center,
               child: Image.asset('images/spicy-ranking_logo.png'),

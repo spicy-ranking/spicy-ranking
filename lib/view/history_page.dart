@@ -199,7 +199,7 @@ String createTimeAgoString(int timestamp) {
 
                     )
                   ),
-                  SizedBox(width: 20), //横幅調整
+                  const SizedBox(width: 20), //横幅調整
                  //よくないねボタン
                   OutlinedButton.icon(
                     onPressed:() async{

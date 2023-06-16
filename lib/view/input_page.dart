@@ -73,6 +73,7 @@ class _InputState extends State<Input> {
           DropdownButtonProductMenu1(
             onProductChanged: updateFirstProductName,
           ),
+          const SizedBox(height: 20),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin),
             child: Text(
@@ -85,6 +86,7 @@ class _InputState extends State<Input> {
           DropdownButtonProductMenu2(
             onProductChanged: updateSecondProductName,
           ),
+          const SizedBox(height: 30),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin),
             child: Text(
@@ -95,7 +97,7 @@ class _InputState extends State<Input> {
           // DropBoxHotMenu(
           //   onHotColdChanged: updateDropBoxHotMenuValue,
           // ),
-          const SizedBox(height: 50),
+          const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -111,7 +113,7 @@ class _InputState extends State<Input> {
                       .instance
                       .collection('spicy-cup-noodle');
                       await cupNoodleCollection
-                        .where(FieldPath.documentId,
+                        .where('name',
                             whereIn: [firstProductName])
                         .get()
                         .then((QuerySnapshot querySnapshot) {
@@ -139,7 +141,7 @@ class _InputState extends State<Input> {
                         .collection('spicy-cup-noodle');
 
                     await cupNoodleCollection
-                        .where(FieldPath.documentId,
+                        .where('name',
                             whereIn: [secondProductName])
                         .get()
                         .then((QuerySnapshot querySnapshot) {
@@ -161,12 +163,10 @@ class _InputState extends State<Input> {
                     debugPrint("these are null");
                   }
                   
+                  if (firstProductName == null || secondProductName == null){
+                  
+                  }else{
                   // ---ここから評価・送信---
-                    // int deltaRate =
-                    //     32 ~/ ((pow(10, (firstRate - secondRate) / 400)) + 1);
-                    // firstRate = firstRate + deltaRate;
-                    // secondRate = secondRate - deltaRate;
-
                     final winner = setPlayer(firstRate.toDouble(), firstRd.toDouble(), firstVol.toDouble());
                     final loser = setPlayer(secondRate.toDouble(), secondRd.toDouble(), secondVol.toDouble());
 
@@ -198,6 +198,7 @@ class _InputState extends State<Input> {
                     'time' : now.millisecondsSinceEpoch ~/ 1000,
                     });
                   // ---ここまで評価---
+                }
 
                   // 値が更新されているのか確認
                   debugPrint('New First Rate: $firstRate');
@@ -209,7 +210,7 @@ class _InputState extends State<Input> {
                         .collection('spicy-cup-noodle');
 
                     await cupNoodleCollection
-                        .where(FieldPath.documentId,
+                        .where('name',
                             whereIn: [firstProductName])
                         .get()
                         .then((QuerySnapshot querySnapshot) {
@@ -228,7 +229,7 @@ class _InputState extends State<Input> {
                         .collection('spicy-cup-noodle');
 
                     await cupNoodleCollection
-                        .where(FieldPath.documentId,
+                        .where('name',
                             whereIn: [secondProductName])
                         .get()
                         .then((QuerySnapshot querySnapshot) {
@@ -270,7 +271,7 @@ class _InputState extends State<Input> {
                       .instance
                       .collection('spicy-cup-noodle');
                       await cupNoodleCollection
-                        .where(FieldPath.documentId,
+                        .where('name',
                             whereIn: [firstProductName])
                         .get()
                         .then((QuerySnapshot querySnapshot) {
@@ -298,7 +299,7 @@ class _InputState extends State<Input> {
                         .collection('spicy-cup-noodle');
 
                     await cupNoodleCollection
-                        .where(FieldPath.documentId,
+                        .where('name',
                             whereIn: [secondProductName])
                         .get()
                         .then((QuerySnapshot querySnapshot) {
@@ -320,20 +321,9 @@ class _InputState extends State<Input> {
                     debugPrint("these are null");
                   }
                   
+                  if (firstProductName == null || secondProductName == null){
+                  }else{
                   // ---ここから評価・送信---
-                    //イロ辛い
-                    // int deltaRate =
-                    //     32 ~/ ((pow(10, (firstRate - secondRate) / 400)) + 1);
-                    // firstRate = firstRate + deltaRate;
-                    // secondRate = secondRate - deltaRate;
-
-                    //イロ辛くない
-                    // int deltaRate =
-                    //     32 ~/ ((pow(10, (secondRate - firstRate) / 400)) + 1);
-                    // firstRate = firstRate - deltaRate;
-                    // secondRate = secondRate + deltaRate;
-
-
                     final winner = setPlayer(secondRate.toDouble(), secondRd.toDouble(), secondVol.toDouble());
                     final loser = setPlayer(firstRate.toDouble(), firstRd.toDouble(), firstVol.toDouble());
 
@@ -365,6 +355,7 @@ class _InputState extends State<Input> {
                     });
 
                   // ---ここまで評価---
+                }
 
                   // 値が更新されているのか確認
                   debugPrint('New First Rate: $firstRate');
@@ -376,7 +367,7 @@ class _InputState extends State<Input> {
                         .collection('spicy-cup-noodle');
 
                     await cupNoodleCollection
-                        .where(FieldPath.documentId,
+                        .where('name',
                             whereIn: [firstProductName])
                         .get()
                         .then((QuerySnapshot querySnapshot) {
@@ -387,6 +378,8 @@ class _InputState extends State<Input> {
                             debugPrint('Failed to update First Rate: $error');
                           });
                         });
+                  }else{
+                    debugPrint("update null");
                   }
 
                   if (secondProductName != null) {
@@ -395,7 +388,7 @@ class _InputState extends State<Input> {
                         .collection('spicy-cup-noodle');
 
                     await cupNoodleCollection
-                        .where(FieldPath.documentId,
+                        .where('name',
                             whereIn: [secondProductName])
                         .get()
                         .then((QuerySnapshot querySnapshot) {
@@ -406,6 +399,8 @@ class _InputState extends State<Input> {
                             debugPrint('Failed to update Second Rate: $error');
                           });
                         });
+                  }else{
+                    debugPrint('update null');
                   }
 
                   // ignore: use_build_context_synchronously
