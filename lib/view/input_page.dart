@@ -73,6 +73,7 @@ class _InputState extends State<Input> {
           DropdownButtonProductMenu1(
             onProductChanged: updateFirstProductName,
           ),
+          const SizedBox(height: 20),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin),
             child: Text(
@@ -85,6 +86,7 @@ class _InputState extends State<Input> {
           DropdownButtonProductMenu2(
             onProductChanged: updateSecondProductName,
           ),
+          const SizedBox(height: 30),
           const Padding(
             padding: EdgeInsets.symmetric(horizontal: kDefaultPaddin),
             child: Text(
@@ -95,7 +97,7 @@ class _InputState extends State<Input> {
           // DropBoxHotMenu(
           //   onHotColdChanged: updateDropBoxHotMenuValue,
           // ),
-          const SizedBox(height: 50),
+          const SizedBox(height: 30),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
