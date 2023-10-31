@@ -4,8 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:spicy_ranking/view/login.dart';
 class LoginJudge extends StatelessWidget {
   @override
-  Widget build(BuildContext context) => MaterialApp(
-        home: StreamBuilder<User?>(
+  Widget build(BuildContext context) => Scaffold(
+        body: StreamBuilder<User?>(
           stream: FirebaseAuth.instance.authStateChanges(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
