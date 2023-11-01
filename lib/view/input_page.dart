@@ -7,7 +7,6 @@ import 'package:spicy_ranking/routing/start_route.dart';
 import 'package:spicy_ranking/routing/send_route.dart';
 import '../components/drop_box_product_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:spicy_ranking/routing/login_judge.dart';
 
 // ignore: must_be_immutable
 class Input extends StatefulWidget {

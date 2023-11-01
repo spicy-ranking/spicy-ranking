@@ -1,15 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:spicy_ranking/view/login.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Register extends StatefulWidget {
-  const Register({Key? key}) : super(key: key);
 
-  @override
-  _RegisterState createState() => _RegisterState();
-}
-
-class _RegisterState extends State<Register> {
+class Register extends StatelessWidget {
   //ステップ１
   final _auth = FirebaseAuth.instance;
 
@@ -55,8 +49,15 @@ class _RegisterState extends State<Register> {
                 final newUser = await _auth.createUserWithEmailAndPassword(
                     email: email, password: password);
                 if (newUser != null) {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => MainContent()));
+                  final userId =FirebaseAuth.instance.currentUser?.uid;
+                  // FirestoreにユーザーIDを書き込む
+                  await FirebaseFirestore.instance.collection('users').doc(userId).set({'tap_count': 0, "time" : 0});
+                  Navigator.of(context).pop(); //元の画面に戻る
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('新規登録が完了しました！'),
+                    ),
+                  );
                 }
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'email-already-in-use') {
@@ -68,21 +69,21 @@ class _RegisterState extends State<Register> {
                   // print('指定したメールアドレスは登録済みです');
                 } else if (e.code == 'invalid-email') {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('メールアドレスのフォーマットが正しくありません'),
                     ),
                   );
                   // print('メールアドレスのフォーマットが正しくありません');
                 } else if (e.code == 'operation-not-allowed') {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('指定したメールアドレス・パスワードは現在使用できません'),
                     ),
                   );
                   // print('指定したメールアドレス・パスワードは現在使用できません');
                 } else if (e.code == 'weak-password') {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('パスワードは６文字以上にしてください'),
                     ),
                   );

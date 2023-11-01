@@ -1,10 +1,10 @@
 // 最初に表示される画面
 import 'package:flutter/material.dart';
 import 'package:spicy_ranking/routing/start_route.dart';
-import 'package:spicy_ranking/view/input_page.dart';
+//import 'package:spicy_ranking/view/input_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spicy_ranking/view/ranking_page.dart';
-import 'package:spicy_ranking/view/history_page.dart';
+//import 'package:spicy_ranking/view/history_page.dart';
 import 'package:spicy_ranking/view/start_page.dart';
 // import 'package:spicy_ranking/view/account_page.dart';
 import 'package:spicy_ranking/routing/login_judge.dart';
@@ -60,7 +60,7 @@ class TabBarPageState extends State<StartRoute> {
   // TabBar,TabBarView, DefaultTabControllerを使い、タブバーとそれに連動するタブページを表示
   @override
   Widget build(BuildContext context) {
-    final _auth = FirebaseAuth.instance;
+    final auth = FirebaseAuth.instance;
     return DefaultTabController(
       length: tab.length,
       child: Scaffold(
@@ -69,16 +69,16 @@ class TabBarPageState extends State<StartRoute> {
           actions: <Widget>[
             IconButton(
               onPressed: () async{
-                await _auth.signOut();
-              if (_auth.currentUser == null) {
+                await auth.signOut();
+              if (auth.currentUser == null) {
                 ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
+                  const SnackBar(
                     content: Text('ログアウトしました'),
                   ),
                 );
-                print('ログアウトしました！');
               }},
-              icon: Icon(Icons.account_circle),
+
+              icon: const Icon(Icons.account_circle), //ユーザーがログインしていれば人のアイコン
             )],
           backgroundColor: Colors.red[400],
           // elevation: widgetが浮いてるような影をつける
@@ -86,7 +86,7 @@ class TabBarPageState extends State<StartRoute> {
           bottom: TabBar(tabs: tab),
         ),
         body:  TabBarView(
-          children: <Widget>[const RankPage(), LoginJudge_input(), LoginJudge_history()],
+          children: <Widget>[const RankPage(), LoginJudgeInput(), LoginJudgeHistory()],
         ),
       ),
     );

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:spicy_ranking/view/login_page.dart';
+import 'package:spicy_ranking/view/register_page.dart';
 import 'app.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'infra/firebase_options.dart';
@@ -16,12 +18,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
+    return  MaterialApp(
 
-      home: AppScreen(),
+      home: const AppScreen(),
       //右上に出る"Debag"マークをけす
       debugShowCheckedModeBanner: false,
-
+      initialRoute: '/',
+      routes: <String, WidgetBuilder> {
+        '/login': (BuildContext context) => UserLogin(),
+        '/regis': (BuildContext context) => Register(),
+      }
       // stream_page表示
       // home: Scaffold(
       //   appBar: AppBar(title: const Text('カップ麺一覧')),

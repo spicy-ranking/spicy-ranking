@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:spicy_ranking/view/signup_page.dart';
 
 class UserLogin extends StatelessWidget {
   final _auth = FirebaseAuth.instance;
@@ -12,7 +11,8 @@ class UserLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:  Text('ログイン'),
+        title: const Text('ログイン'),
+        automaticallyImplyLeading: false
       ),
       body: Column(
         children: [
@@ -46,86 +46,48 @@ class UserLogin extends StatelessWidget {
                 final newUser = await _auth.signInWithEmailAndPassword(
                     email: email, password: password);
                 if (newUser != null) {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => MainContent()));
+                    Navigator.of(context).pop;
+                    ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('ログインしました'),
+                    ),
+                  );
                 }
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'invalid-email') {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text(''),
+                    const SnackBar(
+                      content: Text('メールアドレスのフォーマットが正しくありません'),
                     ),
                   );
-                  print('メールアドレスのフォーマットが正しくありません');
                 } else if (e.code == 'user-disabled') {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('現在指定したメールアドレスは使用できません'),
                     ),
                   );
-                  print('現在指定したメールアドレスは使用できません');
                 } else if (e.code == 'user-not-found') {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('指定したメールアドレスは登録されていません'),
                     ),
                   );
-                  print('指定したメールアドレスは登録されていません');
                 } else if (e.code == 'wrong-password') {
                   ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
+                    const SnackBar(
                       content: Text('パスワードが間違っています'),
                     ),
                   );
-                  print('パスワードが間違っています');
                 }
               }
             },
           ),
           TextButton(
               onPressed: () {
-                Navigator.push(context,
-                    MaterialPageRoute(builder: (context) => Register()));
+                Navigator.of(context).pushNamed('/regis', arguments: 'regis');
               },
-              child: Text('新規登録はこちらから'))
+              child: const Text('新規登録はこちらから'))
         ],
-      ),
-    );
-  }
-}
-
-
-class MainContent extends StatelessWidget {
-  //ステップ１
-  final _auth = FirebaseAuth.instance;
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('成功'),
-        actions: [
-          IconButton(
-            //ステップ２
-            onPressed: () async {
-              await _auth.signOut();
-              if (_auth.currentUser == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
-                  SnackBar(
-                    content: Text('ログアウトしました'),
-                  ),
-                );
-                print('ログアウトしました！');
-              }
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => UserLogin()));
-            },
-            icon: Icon(Icons.close),
-          ),
-        ],
-      ),
-      body: Center(
-        child: Text('ログイン成功！'),
       ),
     );
   }

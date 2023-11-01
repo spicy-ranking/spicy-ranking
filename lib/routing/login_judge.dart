@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spicy_ranking/view/input_page.dart';
 import 'package:spicy_ranking/view/history_page.dart';
-import 'package:spicy_ranking/view/login.dart';
-class LoginJudge_input extends StatelessWidget {
+import 'package:spicy_ranking/view/login_page.dart';
+class LoginJudgeInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: StreamBuilder<User?>(
@@ -19,13 +19,13 @@ class LoginJudge_input extends StatelessWidget {
               return const Input();
             }
             // User が null である、つまり未サインインのサインイン画面へ
-            return UserLogin();
+          return UserLogin(); 
           },
         ),
       );
 }
 
-class LoginJudge_history extends StatelessWidget {
+class LoginJudgeHistory extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
         body: StreamBuilder<User?>(
