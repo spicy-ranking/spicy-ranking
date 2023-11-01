@@ -55,7 +55,7 @@ class _RegisterState extends State<Register> {
                 final newUser = await _auth.createUserWithEmailAndPassword(
                     email: email, password: password);
                 if (newUser != null) {
-                  Navigator.pushReplacement(context,
+                  Navigator.push(context,
                       MaterialPageRoute(builder: (context) => MainContent()));
                 }
               } on FirebaseAuthException catch (e) {

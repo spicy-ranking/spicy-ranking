@@ -2,14 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spicy_ranking/view/signup_page.dart';
 
-class UserLogin extends StatefulWidget {
-  const UserLogin({Key? key}) : super(key: key);
-
-  @override
-  _UserLogin createState() => _UserLogin();
-}
-
-class _UserLogin extends State<UserLogin> {
+class UserLogin extends StatelessWidget {
   final _auth = FirebaseAuth.instance;
 
   String email = '';
@@ -19,7 +12,7 @@ class _UserLogin extends State<UserLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ログイン'),
+        title:  Text('ログイン'),
       ),
       body: Column(
         children: [
@@ -101,14 +94,8 @@ class _UserLogin extends State<UserLogin> {
   }
 }
 
-class MainContent extends StatefulWidget {
-  const MainContent({Key? key}) : super(key: key);
 
-  @override
-  _MainContentState createState() => _MainContentState();
-}
-
-class _MainContentState extends State<MainContent> {
+class MainContent extends StatelessWidget {
   //ステップ１
   final _auth = FirebaseAuth.instance;
 
@@ -130,7 +117,7 @@ class _MainContentState extends State<MainContent> {
                 );
                 print('ログアウトしました！');
               }
-              Navigator.pushReplacement(context,
+              Navigator.push(context,
                   MaterialPageRoute(builder: (context) => UserLogin()));
             },
             icon: Icon(Icons.close),

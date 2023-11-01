@@ -2,6 +2,7 @@
 import 'package:flutter/material.dart';
 import 'package:spicy_ranking/routing/start_route.dart';
 import 'package:spicy_ranking/view/input_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spicy_ranking/view/ranking_page.dart';
 import 'package:spicy_ranking/view/history_page.dart';
 import 'package:spicy_ranking/view/start_page.dart';
@@ -51,7 +52,6 @@ class StartPageState extends State<AppScreen> {
 class TabBarPageState extends State<StartRoute> {
   // タブバーで表示するアイコンのリストを_tabに格納
   final tab = <Tab>[
-    const Tab(text: "My Account"),
     const Tab(text: "Ranking"),
     const Tab(text: "Input"),
     const Tab(text: "History")
@@ -60,18 +60,33 @@ class TabBarPageState extends State<StartRoute> {
   // TabBar,TabBarView, DefaultTabControllerを使い、タブバーとそれに連動するタブページを表示
   @override
   Widget build(BuildContext context) {
+    final _auth = FirebaseAuth.instance;
     return DefaultTabController(
       length: tab.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('SPICY-RANKING'),
+          actions: <Widget>[
+            IconButton(
+              onPressed: () async{
+                await _auth.signOut();
+              if (_auth.currentUser == null) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text('ログアウトしました'),
+                  ),
+                );
+                print('ログアウトしました！');
+              }},
+              icon: Icon(Icons.account_circle),
+            )],
           backgroundColor: Colors.red[400],
           // elevation: widgetが浮いてるような影をつける
           elevation: 10,
           bottom: TabBar(tabs: tab),
         ),
         body:  TabBarView(
-          children: <Widget>[LoginJudge(), const RankPage(), const Input(), const HistoryPage()],
+          children: <Widget>[const RankPage(), LoginJudge_input(), LoginJudge_history()],
         ),
       ),
     );
