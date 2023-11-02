@@ -1,10 +1,14 @@
 // 最初に表示される画面
 import 'package:flutter/material.dart';
 import 'package:spicy_ranking/routing/start_route.dart';
-import 'package:spicy_ranking/view/input_page.dart';
+//import 'package:spicy_ranking/view/input_page.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:spicy_ranking/view/ranking_page.dart';
-import 'package:spicy_ranking/view/history_page.dart';
+//import 'package:spicy_ranking/view/history_page.dart';
 import 'package:spicy_ranking/view/start_page.dart';
+// import 'package:spicy_ranking/view/account_page.dart';
+import 'package:spicy_ranking/routing/login_judge.dart';
+import 'dart:async';
 
 class AppScreen extends StatefulWidget {
   const AppScreen({Key? key}) : super(key: key);
@@ -47,14 +51,40 @@ class StartPageState extends State<AppScreen> {
 }
 
 class TabBarPageState extends State<StartRoute> {
-  // タブバーで表示するアイコンのリストを_tabに格納
   final tab = <Tab>[
     const Tab(text: "Ranking"),
     const Tab(text: "Input"),
     const Tab(text: "History")
   ];
 
-  // TabBar,TabBarView, DefaultTabControllerを使い、タブバーとそれに連動するタブページを表示
+  bool isUserLoggedIn = false;
+  StreamSubscription<User?>? authStateSubscription;
+
+  @override
+  void initState() {
+    super.initState();
+    // FirebaseAuthのauthStateChanges() ストリームを監視
+    authStateSubscription = FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      // ログイン状態を更新
+      final newUserLoggedIn = user != null;
+
+      if (newUserLoggedIn != isUserLoggedIn) {
+        if (mounted) { // ウィジェットがまだマウントされているかどうかを確認
+          setState(() {
+            isUserLoggedIn = newUserLoggedIn;
+          });
+        }
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    // サブスクリプションをキャンセル
+    authStateSubscription?.cancel();
+  }
+
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
@@ -62,40 +92,24 @@ class TabBarPageState extends State<StartRoute> {
       child: Scaffold(
         appBar: AppBar(
           title: const Text('SPICY-RANKING'),
+          actions: <Widget>[
+            if (isUserLoggedIn)
+              IconButton(
+                icon: const Icon(Icons.logout), 
+                onPressed: () async {
+                  await FirebaseAuth.instance.signOut();
+                },
+              ),
+          ],
           backgroundColor: Colors.red[400],
           automaticallyImplyLeading: false,
           // elevation: widgetが浮いてるような影をつける
           elevation: 10,
           bottom: TabBar(tabs: tab),
         ),
-        body: const TabBarView(
-          children: <Widget>[RankPage(), Input(), HistoryPage()],
+        body: TabBarView(
+          children: <Widget>[const RankPage(), LoginJudgeInput(), LoginJudgeHistory()],
         ),
-      ),
-    );
-  }
-}
-
-// TabPageの詳細を設定するクラス
-class TabPage extends StatelessWidget {
-  final String title;
-
-  // コンストラクタの作成(titleとiconを引数にして親クラスを継承)
-  const TabPage({
-    super.key,
-    required this.title,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    // Textに適応させるTextStyleをTheme(headlineSmall)から持ってくる <- headline5から変更
-    final TextStyle? textStyle = Theme.of(context).textTheme.headlineSmall;
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(title, style: textStyle),
-        ],
       ),
     );
   }
