@@ -3,7 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:spicy_ranking/view/input_page.dart';
 import 'package:spicy_ranking/view/history_page.dart';
-import 'package:spicy_ranking/view/login_page.dart';
+import 'package:spicy_ranking/view/login_restrict_page.dart';
 class LoginJudgeInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) => Scaffold(
@@ -19,7 +19,7 @@ class LoginJudgeInput extends StatelessWidget {
               return const Input();
             }
             // User が null である、つまり未サインインのサインイン画面へ
-          return UserLogin(); 
+          return UserLogin_restrict(); 
           },
         ),
       );
@@ -40,7 +40,7 @@ class LoginJudgeHistory extends StatelessWidget {
               return const HistoryPage();
             }
             // User が null である、つまり未サインインのサインイン画面へ
-            return UserLogin();
+            return UserLogin_restrict();
           },
         ),
       );

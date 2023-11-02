@@ -12,7 +12,6 @@ class UserLogin extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text('ログイン'),
-        automaticallyImplyLeading: false
       ),
       body: Column(
         children: [
@@ -46,7 +45,7 @@ class UserLogin extends StatelessWidget {
                 final newUser = await _auth.signInWithEmailAndPassword(
                     email: email, password: password);
                 if (newUser != null) {
-                    Navigator.of(context).pop;
+                    Navigator.of(context).pop();
                     ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('ログインしました'),
@@ -82,11 +81,6 @@ class UserLogin extends StatelessWidget {
               }
             },
           ),
-          TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed('/regis', arguments: 'regis');
-              },
-              child: const Text('新規登録はこちらから'))
         ],
       ),
     );

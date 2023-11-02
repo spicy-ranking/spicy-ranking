@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spicy_ranking/routing/calcurate.dart';
 import 'package:spicy_ranking/routing/send_route.dart';
-import 'package:spicy_ranking/daily_tap_count.dart';
+import 'package:spicy_ranking/account/daily_tap_count.dart';
 import 'dart:math';
 import 'package:timeago/timeago.dart' as timeAgo; //時間差分計算用パッケージ
 
@@ -101,7 +101,7 @@ String createTimeAgoString(int timestamp) {
                 children: [                 
                   //いいねボタン
                   OutlinedButton.icon(
-                    onPressed: (tapJudge() == true) ? null : () async{
+                    onPressed: () async{
                       CollectionReference historyCollection = FirebaseFirestore.instance.collection('history');
                       CollectionReference cupNoodleCollection = FirebaseFirestore.instance.collection('spicy-cup-noodle');
                       int firstRate = 0;
@@ -111,7 +111,6 @@ String createTimeAgoString(int timestamp) {
                       int secondRd = 0;
                       double secondVol = 0; // firebase 登録の値が少数だからdouble型
                       ClickSet();
-                      debugPrint(getDailyClickCount().toString());
                       // クリックされた履歴のIDを取得
                       await historyCollection.doc(history.id).update({
                         'good': history.good + 1, //いいねカウントアップ
@@ -204,7 +203,7 @@ String createTimeAgoString(int timestamp) {
                   const SizedBox(width: 20), //横幅調整
                  //よくないねボタン
                   OutlinedButton.icon(
-                    onPressed:tapJudge() == false ? null :() async{
+                    onPressed: () async{
                       CollectionReference historyCollection = FirebaseFirestore.instance.collection('history');
                       CollectionReference cupNoodleCollection = FirebaseFirestore.instance.collection('spicy-cup-noodle');
                       int firstRate = 0;

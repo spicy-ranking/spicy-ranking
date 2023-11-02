@@ -61,24 +61,24 @@ class TabBarPageState extends State<StartRoute> {
   @override
   Widget build(BuildContext context) {
     final auth = FirebaseAuth.instance;
+    final user = auth.currentUser;
     return DefaultTabController(
       length: tab.length,
       child: Scaffold(
         appBar: AppBar(
           title: const Text('SPICY-RANKING'),
           actions: <Widget>[
+            if (user != null)
             IconButton(
+              icon: const Icon(Icons.logout), 
               onPressed: () async{
                 await auth.signOut();
-              if (auth.currentUser == null) {
-                ScaffoldMessenger.of(context).showSnackBar(
+               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('ログアウトしました'),
                   ),
                 );
-              }},
-
-              icon: const Icon(Icons.account_circle), //ユーザーがログインしていれば人のアイコン
+              },
             )],
           backgroundColor: Colors.red[400],
           // elevation: widgetが浮いてるような影をつける
