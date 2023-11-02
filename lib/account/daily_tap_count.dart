@@ -1,26 +1,25 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-
+import 'package:spicy_ranking/view/history_page.dart';
 final _firestore = FirebaseFirestore.instance;
 final _auth = FirebaseAuth.instance;
 
 Future<int> getDailyClickCount() async {
   final user = _auth.currentUser;
   if (user != null) {
-    final today = DateTime.now();
-    final userDoc = _firestore.collection('users').doc(user.uid);
-    final clickData = await userDoc.collection('clicks').where('date', isEqualTo: today).where('userId', isEqualTo: user.uid).get();
+    final today = DateTime.now().day;
+    final clickData = await _firestore.collection('clicks').where('date', isEqualTo: today).where('userId', isEqualTo: user.uid).get();
     return clickData.docs.length;
   }
-  return 0;
+  return 4;
 }
 
-Future<int> ClickSet() async {
+Future<int> clickSet() async {
   final user = _auth.currentUser;
   if (user != null) {
-    final today = DateTime.now();
-    await _firestore.collection("clicks").doc().set({"data" : today, "userId": user.uid});
+    final today = DateTime.now().day;
+    await _firestore.collection("clicks").doc().set({"date" : today, "userId": user.uid});
   }
   return 0;
 }
@@ -30,6 +29,7 @@ Future<bool> tapJudge() async {
   if (dailyClickCount < 3) {
     // ボタンクリックを許可
     debugPrint("${dailyClickCount}");
+    await clickSet();
     return true;
     // ボタンのアクションを実行
   } else {
