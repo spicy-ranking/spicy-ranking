@@ -2,9 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:spicy_ranking/routing/calcurate.dart';
 import 'package:spicy_ranking/routing/send_route.dart';
+import 'package:spicy_ranking/account/daily_tap_count.dart';
 import 'dart:math';
 import 'package:timeago/timeago.dart' as timeAgo; //時間差分計算用パッケージ
-
 
 class History { //履歴クラス
   late String id; // ドキュメントID
@@ -100,16 +100,17 @@ String createTimeAgoString(int timestamp) {
                 children: [                 
                   //いいねボタン
                   OutlinedButton.icon(
-                    onPressed:() async{
+                    onPressed: () async{
+                      bool canTap = await tapJudge();
+                      if(canTap){
                       CollectionReference historyCollection = FirebaseFirestore.instance.collection('history');
                       CollectionReference cupNoodleCollection = FirebaseFirestore.instance.collection('spicy-cup-noodle');
                       int firstRate = 0;
                       int secondRate = 0;
                       int firstRd = 0;
-                      double firstVol = 0; // firebase 登録の値が少数だからdouble型
+                      double firstVol = 0; // firebase 登録の値が小数だからdouble型
                       int secondRd = 0;
-                      double secondVol = 0; // firebase 登録の値が少数だからdouble型
-
+                      double secondVol = 0; // firebase 登録の値が小数だからdouble型
                       // クリックされた履歴のIDを取得
                       await historyCollection.doc(history.id).update({
                         'good': history.good + 1, //いいねカウントアップ
@@ -189,20 +190,28 @@ String createTimeAgoString(int timestamp) {
                               debugPrint('Failed to update Second Rate: $error');
                             });
                           });
+                    }
+                    else{
+                      ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('今日の投票数制限(3回)を超えました'),
+                    ));}
                     },
                     icon: const Icon(Icons.thumb_up),
                     label:Text('${history.good}'),
                     style:OutlinedButton.styleFrom(
-                      primary:Colors.red,
+                      foregroundColor:Colors.red,
                       //minimumSize: Size.zero,
                       padding: EdgeInsets.zero,
 
-                    )
+                    ),
                   ),
                   const SizedBox(width: 20), //横幅調整
                  //よくないねボタン
                   OutlinedButton.icon(
-                    onPressed:() async{
+                    onPressed: () async{
+                      bool canTap = await tapJudge();
+                      if(canTap){
                       CollectionReference historyCollection = FirebaseFirestore.instance.collection('history');
                       CollectionReference cupNoodleCollection = FirebaseFirestore.instance.collection('spicy-cup-noodle');
                       int firstRate = 0;
@@ -290,7 +299,12 @@ String createTimeAgoString(int timestamp) {
                             }).catchError((error) {
                               debugPrint('Failed to update Second Rate: $error');
                             });
-                          });
+                          });}
+                        else{
+                          ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text('今日の投票数制限(3回)を超えました'),
+                        ));}
                     },
                     icon: const Icon(Icons.thumb_down),
                     label:Text('${history.bad}'),

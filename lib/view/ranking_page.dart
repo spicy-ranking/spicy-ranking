@@ -49,7 +49,7 @@ class RankPage extends StatelessWidget {
                   return ListTile(
                     leading: CircleAvatar(
                       child: Text("${index + 1}",
-                      style: TextStyle(
+                      style: const TextStyle(
                         color: Colors.white,
                       )), // ランキング順位
                       backgroundColor: Colors.red[900 - 100 * (index ~/ 1.5)],
