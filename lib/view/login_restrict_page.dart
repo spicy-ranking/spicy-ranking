@@ -14,8 +14,10 @@ class UserLogin_restrict extends StatelessWidget {
         title: const Text('ログイン者限定の機能です'),
         automaticallyImplyLeading: false
       ),
-      body: Column(
+      body: Center(
+        child: Column(
         children: [
+          const SizedBox(height: 30),
           TextButton(
               onPressed: () {
                 Navigator.of(context).pushNamed('/login', arguments: 'login');
@@ -26,7 +28,8 @@ class UserLogin_restrict extends StatelessWidget {
                 Navigator.of(context).pushNamed('/regis', arguments: 'regis');
               },
               child: const Text('新規登録はこちらから'))
-        ],
+        ]
+        )
       ),
     );
   }
