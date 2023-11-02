@@ -26,17 +26,17 @@ class Player {
     return clonedPlayer;
   }
 
-  Player({double rating = 1500, double rd = 350, double vol = 0.06}) {
+  Player({double rating = 1500, double rd = 350, this.vol = 0.06}) {
     this.rating = rating;
     this.rd = rd;
-    this.vol = vol;
   }
 
   void _preRatingRD() {
     _rd = sqrt(pow(_rd, 2) + pow(vol, 2));
   }
 
-  void updatePlayer(List<double> ratingList, List<double> rdList, List<double> outcomeList) {
+  void updatePlayer(
+      List<double> ratingList, List<double> rdList, List<double> outcomeList) {
     ratingList = ratingList.map((x) => (x - 1500) / 173.7178).toList();
     rdList = rdList.map((x) => x / 173.7178).toList();
 
@@ -48,12 +48,14 @@ class Player {
 
     double tempSum = 0;
     for (int i = 0; i < ratingList.length; i++) {
-      tempSum += _g(rdList[i]) * (outcomeList[i] - _e(ratingList[i], rdList[i]));
+      tempSum +=
+          _g(rdList[i]) * (outcomeList[i] - _e(ratingList[i], rdList[i]));
     }
     _rating += pow(_rd, 2) * tempSum;
   }
 
-  double _newVol(List<double> ratingList, List<double> rdList, List<double> outcomeList, double v) {
+  double _newVol(List<double> ratingList, List<double> rdList,
+      List<double> outcomeList, double v) {
     double a = log(pow(vol, 2));
     double eps = 0.000001;
     double A = a;
@@ -102,10 +104,12 @@ class Player {
     return (num1 / denom1) - ((x - a) / pow(_tau, 2));
   }
 
-  double _delta(List<double> ratingList, List<double> rdList, List<double> outcomeList, double v) {
+  double _delta(List<double> ratingList, List<double> rdList,
+      List<double> outcomeList, double v) {
     double tempSum = 0;
     for (int i = 0; i < ratingList.length; i++) {
-      tempSum += _g(rdList[i]) * (outcomeList[i] - _e(ratingList[i], rdList[i]));
+      tempSum +=
+          _g(rdList[i]) * (outcomeList[i] - _e(ratingList[i], rdList[i]));
     }
     return v * tempSum;
   }
