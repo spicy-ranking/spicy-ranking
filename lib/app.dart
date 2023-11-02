@@ -63,6 +63,7 @@ class TabBarPageState extends State<StartRoute> {
         appBar: AppBar(
           title: const Text('SPICY-RANKING'),
           backgroundColor: Colors.red[400],
+          automaticallyImplyLeading: false,
           // elevation: widgetが浮いてるような影をつける
           elevation: 10,
           bottom: TabBar(tabs: tab),
