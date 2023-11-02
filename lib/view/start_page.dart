@@ -10,7 +10,7 @@ class Start extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+           Padding(
             // 水平方向にpaddingが入っている
             padding: const EdgeInsets.symmetric(vertical: 100),
             child: Align(
@@ -18,64 +18,11 @@ class Start extends StatelessWidget {
               child: Image.asset('images/spicy-ranking_logo.png'),
             ),
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center, // ボタンを中央揃え
-            children: [
-              SizedBox(
-                width: 120,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StartRoute()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 34, 12, 6),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: const Text(
-                    'ログイン',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                  ),
-                ),
-              ),
-              const SizedBox(width: 20), // ボタン間の間隔を設定
-              SizedBox(
-                width: 120,
-                height: 50,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StartRoute()),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 34, 12, 6),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: const Text(
-                    '会員登録',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          const SizedBox(height: 20), // ボタン間の間隔を設定
           Container(
             alignment: Alignment.bottomCenter,
             child: SizedBox(
               width: 250,
-              height: 60,
+              height: 120,
               child: ElevatedButton(
                 onPressed: () {
                   Navigator.push(
@@ -84,15 +31,18 @@ class Start extends StatelessWidget {
                   );
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color.fromARGB(255, 34, 12, 6),
+                  backgroundColor: Colors.lightGreenAccent[400],
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(10),
                   ),
                 ),
                 child: const Text(
-                  'アカウントを作らずにはじめる',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
-                ),
+                  'はじめる',
+                  style: TextStyle(
+                    fontWeight: FontWeight.bold,
+                    fontSize: 36
+                    ),
+                  ),
               ),
             ),
           ),

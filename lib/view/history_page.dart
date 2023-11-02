@@ -4,12 +4,9 @@ import 'package:spicy_ranking/routing/calcurate.dart';
 import 'package:spicy_ranking/routing/send_route.dart';
 import 'package:spicy_ranking/account/daily_tap_count.dart';
 import 'dart:math';
-// ignore: depend_on_referenced_packages, library_prefixes
 import 'package:timeago/timeago.dart' as timeAgo; //時間差分計算用パッケージ
 
-
 class History { //履歴クラス
-
   late String id; // ドキュメントID
   late String hot; //辛いもの
   late String cold; //辛くないもの
@@ -17,22 +14,10 @@ class History { //履歴クラス
   late int bad; //反対数
   late int time; //入力された時間
 
-  History(
-      {required this.id,
-      required this.hot,
-      required this.cold,
-      required this.good,
-      required this.bad,
-      required this.time});
+  History({required this.id, required this.hot, required this.cold, required this.good, required this.bad, required this.time});
 
   factory History.fromMap(String id, Map<String, dynamic> data) {
-    return History(
-        id: id,
-        hot: data['hot'],
-        cold: data['cold'],
-        good: data['good'],
-        bad: data['bad'],
-        time: data['time']);
+    return History(id: id, hot: data['hot'], cold: data['cold'], good: data['good'], bad: data['bad'], time: data['time']);
   }
 }
 
@@ -42,10 +27,7 @@ class HistoryPage extends StatelessWidget {
   // Streamを使用して、モデルクラスから、データを取得するメソッド
   Stream<List<History>> _fetchHistorysStream() {
     final firestore = FirebaseFirestore.instance;
-    final stream = firestore
-        .collection('history')
-        .orderBy('time', descending: true)
-        .snapshots(); //時系列順に取得
+    final stream = firestore.collection('history').orderBy('time', descending:true).snapshots(); //時系列順に取得
     return stream.map((snapshot) => snapshot.docs.map((doc) {
           final historyId = doc.id;
           return History.fromMap(historyId, doc.data());
@@ -53,28 +35,29 @@ class HistoryPage extends StatelessWidget {
   }
 
 //イロレーティング評価関数
-  List valueFunction(int firstRate, int secondRate, bool firstWin) {
-    if (firstWin) {
-      int deltaRate = 32 ~/ ((pow(10, (firstRate - secondRate) / 400)) + 1);
-      firstRate = firstRate + deltaRate;
-      secondRate = secondRate - deltaRate;
-    } else {
-      int deltaRate = 32 ~/ ((pow(10, (secondRate - firstRate) / 400)) + 1);
-      firstRate = firstRate - deltaRate;
-      secondRate = secondRate + deltaRate;
-    }
-    return [firstRate, secondRate];
+List valueFunction(int firstRate, int secondRate, bool firstWin){
+  if (firstWin){
+  int deltaRate = 32 ~/ ((pow(10, (firstRate - secondRate) / 400)) + 1);
+  firstRate = firstRate + deltaRate;
+  secondRate = secondRate - deltaRate;
   }
+  else{
+    int deltaRate = 32 ~/ ((pow(10, (secondRate - firstRate) / 400)) + 1);
+    firstRate = firstRate - deltaRate;
+    secondRate = secondRate + deltaRate; 
+  }
+  return [firstRate, secondRate];
+}
+
 
 //時間の差分計算
-  String createTimeAgoString(int timestamp) {
-    timeAgo.setLocaleMessages("ja", timeAgo.JaMessages());
-    final now = DateTime.now();
-    DateTime postDateTime =
-        DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
-    final difference = now.difference(postDateTime);
-    return timeAgo.format(now.subtract(difference), locale: "ja");
-  }
+String createTimeAgoString(int timestamp) {
+  timeAgo.setLocaleMessages("ja", timeAgo.JaMessages());
+  final now = DateTime.now();
+  DateTime postDateTime =  DateTime.fromMillisecondsSinceEpoch(timestamp * 1000);
+  final difference = now.difference(postDateTime);
+  return timeAgo.format(now.subtract(difference), locale: "ja");
+}
 
   @override
   Widget build(BuildContext context) {
@@ -92,11 +75,11 @@ class HistoryPage extends StatelessWidget {
         }
 
         final historys = snapshot.data!;
-
+        
         return ListView.builder(
           // Listのデータの数を数える
           itemExtent: 140,
-          itemCount: historys.length >= 15 ? 15 : historys.length, //最大15個履歴表示
+          itemCount: historys.length >= 15 ? 15: historys.length, //最大15個履歴表示
 
           itemBuilder: (context, index) {
             // index番目から数えて、０〜末尾まで登録されているデータを表示する変数
