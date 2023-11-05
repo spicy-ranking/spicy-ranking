@@ -55,7 +55,7 @@ class Start extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    '会員登録',
+                    '新規登録',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),
