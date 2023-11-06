@@ -20,7 +20,7 @@ class _DropdownButtonMenuState extends State<DropdownButtonProductMenu1> {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('spicy-cup-noodle')
+            .collection('spicy-instant-noodle-expriment')
             .snapshots(),
         builder: (context, snapshot) {
           List<DropdownMenuItem<String>> foodItems = []; // 型を指定
@@ -39,39 +39,38 @@ class _DropdownButtonMenuState extends State<DropdownButtonProductMenu1> {
               );
             }
           }
-        return SearchChoices.single(
- 
-          items: foodItems,
-          value: isSelectedValue,
-          hint: "商品名を一つ選んでください",
-          searchHint: "商品名を一つ選んでください",
-          onChanged: (foodValue) {
-            setState(() {
-              isSelectedValue = foodValue!;
-              firstProductName = foodValue; // 値を代入
-              widget.onProductChanged?.call(firstProductName!);
-            });
-          },
-          doneButton: "選択",
-          displayItem: (item, selected) {
-            return (Row(children: [
-              selected
-                  ? const Icon(
-                      Icons.radio_button_checked,
-                      color: Colors.grey,
-                    )
-                  : const Icon(
-                      Icons.radio_button_unchecked,
-                      color: Colors.grey,
-                    ),
-              const SizedBox(width: 7),
-              Expanded(
-                child: item,
-              ),
-            ]));
-          },
-          isExpanded: true,
-      );
+          return SearchChoices.single(
+            items: foodItems,
+            value: isSelectedValue,
+            hint: "商品名を一つ選んでください",
+            searchHint: "商品名を一つ選んでください",
+            onChanged: (foodValue) {
+              setState(() {
+                isSelectedValue = foodValue!;
+                firstProductName = foodValue; // 値を代入
+                widget.onProductChanged?.call(firstProductName!);
+              });
+            },
+            doneButton: "選択",
+            displayItem: (item, selected) {
+              return (Row(children: [
+                selected
+                    ? const Icon(
+                        Icons.radio_button_checked,
+                        color: Colors.grey,
+                      )
+                    : const Icon(
+                        Icons.radio_button_unchecked,
+                        color: Colors.grey,
+                      ),
+                const SizedBox(width: 7),
+                Expanded(
+                  child: item,
+                ),
+              ]));
+            },
+            isExpanded: true,
+          );
         });
   }
 }
@@ -94,7 +93,7 @@ class _DropdownButtonMenuState2 extends State<DropdownButtonProductMenu2> {
   Widget build(BuildContext context) {
     return StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('spicy-cup-noodle')
+            .collection('spicy-instant-noodle-expriment')
             .snapshots(),
         builder: (context, snapshot) {
           List<DropdownMenuItem<String>> foodItems = []; // 型を指定
@@ -105,45 +104,45 @@ class _DropdownButtonMenuState2 extends State<DropdownButtonProductMenu2> {
             for (var food in foods!) {
               foodItems.add(
                 DropdownMenuItem(
-                  value: food['name'],
-                  child: Text(food['name'],)
-                ),
+                    value: food['name'],
+                    child: Text(
+                      food['name'],
+                    )),
               );
             }
           }
           return SearchChoices.single(
- 
-          items: foodItems,
-          value: isSelectedValue,
-          hint: "商品名を一つ選んでください",
-          searchHint: "商品名を一つ選んでください",
-          onChanged: (foodValue) {
-            setState(() {
-              isSelectedValue = foodValue!;
-              secondProductName = foodValue; // 値を代入
-              widget.onProductChanged?.call(secondProductName!);
-            });
-          },
-          doneButton: "選択",
-          displayItem: (item, selected) {
-            return (Row(children: [
-              selected
-                  ? const Icon(
-                      Icons.radio_button_checked,
-                      color: Colors.grey,
-                    )
-                  : const Icon(
-                      Icons.radio_button_unchecked,
-                      color: Colors.grey,
-                    ),
-              const SizedBox(width: 7),
-              Expanded(
-                child: item,
-              ),
-            ]));
-          },
-          isExpanded: true,
-      );
+            items: foodItems,
+            value: isSelectedValue,
+            hint: "商品名を一つ選んでください",
+            searchHint: "商品名を一つ選んでください",
+            onChanged: (foodValue) {
+              setState(() {
+                isSelectedValue = foodValue!;
+                secondProductName = foodValue; // 値を代入
+                widget.onProductChanged?.call(secondProductName!);
+              });
+            },
+            doneButton: "選択",
+            displayItem: (item, selected) {
+              return (Row(children: [
+                selected
+                    ? const Icon(
+                        Icons.radio_button_checked,
+                        color: Colors.grey,
+                      )
+                    : const Icon(
+                        Icons.radio_button_unchecked,
+                        color: Colors.grey,
+                      ),
+                const SizedBox(width: 7),
+                Expanded(
+                  child: item,
+                ),
+              ]));
+            },
+            isExpanded: true,
+          );
         });
   }
 }
