@@ -26,11 +26,7 @@ class Start extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StartRoute()),
-                    );
+                    Navigator.pushNamed(context, '/login');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 34, 12, 6),
@@ -50,11 +46,7 @@ class Start extends StatelessWidget {
                 height: 50,
                 child: ElevatedButton(
                   onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StartRoute()),
-                    );
+                    Navigator.pushNamed(context, '/regis');
                   },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: const Color.fromARGB(255, 34, 12, 6),
@@ -63,7 +55,7 @@ class Start extends StatelessWidget {
                     ),
                   ),
                   child: const Text(
-                    '会員登録',
+                    '新規登録',
                     style: TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                   ),
                 ),

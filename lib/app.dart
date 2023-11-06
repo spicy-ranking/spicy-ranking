@@ -40,14 +40,12 @@ class AppScreen extends StatefulWidget {
 }
 
 class StartPageState extends State<AppScreen> {
-
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
       body: Start(),
     );
   }
-
 }
 
 class TabBarPageState extends State<StartRoute> {
@@ -64,12 +62,14 @@ class TabBarPageState extends State<StartRoute> {
   void initState() {
     super.initState();
     // FirebaseAuthのauthStateChanges() ストリームを監視
-    authStateSubscription = FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    authStateSubscription =
+        FirebaseAuth.instance.authStateChanges().listen((User? user) {
       // ログイン状態を更新
       final newUserLoggedIn = user != null;
 
       if (newUserLoggedIn != isUserLoggedIn) {
-        if (mounted) { // ウィジェットがまだマウントされているかどうかを確認
+        if (mounted) {
+          // ウィジェットがまだマウントされているかどうかを確認
           setState(() {
             isUserLoggedIn = newUserLoggedIn;
           });
@@ -95,7 +95,7 @@ class TabBarPageState extends State<StartRoute> {
           actions: <Widget>[
             if (isUserLoggedIn)
               IconButton(
-                icon: const Icon(Icons.logout), 
+                icon: const Icon(Icons.logout),
                 onPressed: () async {
                   await FirebaseAuth.instance.signOut();
                 },
@@ -105,10 +105,17 @@ class TabBarPageState extends State<StartRoute> {
           automaticallyImplyLeading: false,
           // elevation: widgetが浮いてるような影をつける
           elevation: 10,
-          bottom: TabBar(tabs: tab),
+          bottom: TabBar(
+            tabs: tab,
+            indicatorColor: Colors.white,
+          ),
         ),
         body: TabBarView(
-          children: <Widget>[const RankPage(), LoginJudgeInput(), LoginJudgeHistory()],
+          children: <Widget>[
+            const RankPage(),
+            LoginJudgeInput(),
+            LoginJudgeHistory()
+          ],
         ),
       ),
     );

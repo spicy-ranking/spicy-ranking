@@ -11,6 +11,7 @@ class UserLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey[400],
         title: const Text('ログイン'),
       ),
       body: Column(
@@ -39,14 +40,17 @@ class UserLogin extends StatelessWidget {
             ),
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueGrey[400],
+            ),
             child: const Text('ログイン'),
             onPressed: () async {
               try {
                 final newUser = await _auth.signInWithEmailAndPassword(
                     email: email, password: password);
                 if (newUser != null) {
-                    Navigator.of(context).pop();
-                    ScaffoldMessenger.of(context).showSnackBar(
+                  Navigator.of(context).pop();
+                  ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('ログインしました'),
                     ),

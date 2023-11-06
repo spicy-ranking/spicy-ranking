@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-
 class Register extends StatelessWidget {
   //ステップ１
   final _auth = FirebaseAuth.instance;
@@ -14,6 +13,7 @@ class Register extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Colors.blueGrey[400],
         title: const Text('新規登録'),
       ),
       body: Column(
@@ -42,6 +42,9 @@ class Register extends StatelessWidget {
             ),
           ),
           ElevatedButton(
+            style: ElevatedButton.styleFrom(
+              backgroundColor: Colors.blueGrey[400],
+            ),
             child: const Text('新規登録'),
             //ステップ２
             onPressed: () async {
@@ -49,9 +52,12 @@ class Register extends StatelessWidget {
                 final newUser = await _auth.createUserWithEmailAndPassword(
                     email: email, password: password);
                 if (newUser != null) {
-                  final userId =FirebaseAuth.instance.currentUser?.uid;
+                  final userId = FirebaseAuth.instance.currentUser?.uid;
                   // FirestoreにユーザーIDを書き込む
-                  await FirebaseFirestore.instance.collection('users').doc(userId).set({'tap_count': 0, "time" : 0});
+                  await FirebaseFirestore.instance
+                      .collection('users')
+                      .doc(userId)
+                      .set({'tap_count': 0, "time": 0});
                   Navigator.of(context).pop(); //元の画面に戻る
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
