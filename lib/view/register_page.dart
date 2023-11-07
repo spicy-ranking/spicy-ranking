@@ -75,7 +75,7 @@ class Register extends StatelessWidget {
                   );
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
-                      content: Text('ログインしました'),
+                      content: Text('新規登録が完了しました'),
                     ),
                   );
                 }
