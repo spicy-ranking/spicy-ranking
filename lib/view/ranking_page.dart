@@ -21,7 +21,7 @@ class RankPage extends StatelessWidget {
   Stream<List<Food>> _fetchFoodsStream() {
     final firestore = FirebaseFirestore.instance;
     final stream = firestore
-        .collection('spicy-cup-noodle')
+        .collection('spicy-instant-noodle-expriment')
         .orderBy('rate', descending: true)
         .snapshots();
     return stream.map((snapshot) =>
@@ -50,7 +50,8 @@ class RankPage extends StatelessWidget {
                 itemBuilder: (context, index) {
                   final food = foods[index];
                   return ListTile(
-                    leading: CircleAvatar( // ランキング順位
+                    leading: CircleAvatar(
+                      // ランキング順位
                       backgroundColor: Colors.red[900 - 100 * (index ~/ 1.5)],
                       child: Text("${index + 1}",
                           style: const TextStyle(

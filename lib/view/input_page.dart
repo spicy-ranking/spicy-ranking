@@ -108,8 +108,9 @@ class _InputState extends State<Input> {
               debugPrint(secondProductName);
               debugPrint(hotCold);
               if (firstProductName != null) {
-                CollectionReference cupNoodleCollection =
-                    FirebaseFirestore.instance.collection('spicy-cup-noodle');
+                CollectionReference cupNoodleCollection = FirebaseFirestore
+                    .instance
+                    .collection('spicy-instant-noodle-expriment');
                 await cupNoodleCollection
                     .where('name', whereIn: [firstProductName])
                     .get()
@@ -133,8 +134,9 @@ class _InputState extends State<Input> {
               }
 
               if (secondProductName != null) {
-                CollectionReference cupNoodleCollection =
-                    FirebaseFirestore.instance.collection('spicy-cup-noodle');
+                CollectionReference cupNoodleCollection = FirebaseFirestore
+                    .instance
+                    .collection('spicy-instant-noodle-expriment');
 
                 await cupNoodleCollection
                     .where('name', whereIn: [secondProductName])
@@ -200,8 +202,9 @@ class _InputState extends State<Input> {
               debugPrint('New Second Rate: $secondRate');
 
               if (firstProductName != null) {
-                CollectionReference cupNoodleCollection =
-                    FirebaseFirestore.instance.collection('spicy-cup-noodle');
+                CollectionReference cupNoodleCollection = FirebaseFirestore
+                    .instance
+                    .collection('spicy-instant-noodle-expriment');
 
                 await cupNoodleCollection
                     .where('name', whereIn: [firstProductName])
@@ -220,8 +223,9 @@ class _InputState extends State<Input> {
               }
 
               if (secondProductName != null) {
-                CollectionReference cupNoodleCollection =
-                    FirebaseFirestore.instance.collection('spicy-cup-noodle');
+                CollectionReference cupNoodleCollection = FirebaseFirestore
+                    .instance
+                    .collection('spicy-instant-noodle-expriment');
 
                 await cupNoodleCollection
                     .where('name', whereIn: [secondProductName])
@@ -261,8 +265,9 @@ class _InputState extends State<Input> {
               debugPrint(secondProductName);
               debugPrint(hotCold);
               if (firstProductName != null) {
-                CollectionReference cupNoodleCollection =
-                    FirebaseFirestore.instance.collection('spicy-cup-noodle');
+                CollectionReference cupNoodleCollection = FirebaseFirestore
+                    .instance
+                    .collection('spicy-instant-noodle-expriment');
                 await cupNoodleCollection
                     .where('name', whereIn: [firstProductName])
                     .get()
@@ -286,8 +291,9 @@ class _InputState extends State<Input> {
               }
 
               if (secondProductName != null) {
-                CollectionReference cupNoodleCollection =
-                    FirebaseFirestore.instance.collection('spicy-cup-noodle');
+                CollectionReference cupNoodleCollection = FirebaseFirestore
+                    .instance
+                    .collection('spicy-instant-noodle-expriment');
 
                 await cupNoodleCollection
                     .where('name', whereIn: [secondProductName])
@@ -354,8 +360,9 @@ class _InputState extends State<Input> {
               debugPrint('New Second Rate: $secondRate');
 
               if (firstProductName != null) {
-                CollectionReference cupNoodleCollection =
-                    FirebaseFirestore.instance.collection('spicy-cup-noodle');
+                CollectionReference cupNoodleCollection = FirebaseFirestore
+                    .instance
+                    .collection('spicy-instant-noodle-expriment');
 
                 await cupNoodleCollection
                     .where('name', whereIn: [firstProductName])
@@ -376,8 +383,9 @@ class _InputState extends State<Input> {
               }
 
               if (secondProductName != null) {
-                CollectionReference cupNoodleCollection =
-                    FirebaseFirestore.instance.collection('spicy-cup-noodle');
+                CollectionReference cupNoodleCollection = FirebaseFirestore
+                    .instance
+                    .collection('spicy-instant-noodle-expriment');
 
                 await cupNoodleCollection
                     .where('name', whereIn: [secondProductName])
