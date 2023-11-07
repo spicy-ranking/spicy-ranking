@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:spicy_ranking/routing/start_route.dart';
 //import 'package:spicy_ranking/view/input_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spicy_ranking/view/addmenu_page.dart';
 import 'package:spicy_ranking/view/ranking_page.dart';
 //import 'package:spicy_ranking/view/history_page.dart';
 import 'package:spicy_ranking/view/start_page.dart';
@@ -52,7 +53,8 @@ class TabBarPageState extends State<StartRoute> {
   final tab = <Tab>[
     const Tab(text: "Ranking"),
     const Tab(text: "Input"),
-    const Tab(text: "History")
+    const Tab(text: "History"),
+    const Tab(text: "Request")
   ];
 
   bool isUserLoggedIn = false;
@@ -114,7 +116,8 @@ class TabBarPageState extends State<StartRoute> {
           children: <Widget>[
             const RankPage(),
             LoginJudgeInput(),
-            LoginJudgeHistory()
+            LoginJudgeHistory(),
+            LoginJudgeAddMenu(),
           ],
         ),
       ),

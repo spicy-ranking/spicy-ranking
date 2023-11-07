@@ -7,10 +7,6 @@ class addMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('商品追加'),
-        backgroundColor: Colors.brown, // バナーの背景色を茶色に変更
-      ),
       body: Column(
         children: <Widget>[
           // 商品の写真を追加
@@ -54,7 +50,7 @@ class addMenu extends StatelessWidget {
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('登録完了'),
-                    content: const Text('商品が登録されました'),
+                    content: const Text('商品追加リクエストがされました'),
                     actions: <Widget>[
                       TextButton(
                         onPressed: () {
@@ -73,7 +69,7 @@ class addMenu extends StatelessWidget {
               backgroundColor: MaterialStateProperty.all<Color>(
                   Colors.brown), // ボタンの背景色を茶色に変更
             ),
-            child: const Text('登録'),
+            child: const Text('商品追加をリクエスト'),
           ),
         ],
       ),
