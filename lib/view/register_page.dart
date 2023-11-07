@@ -2,12 +2,15 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+// ignore: must_be_immutable
 class Register extends StatelessWidget {
   //ステップ１
   final _auth = FirebaseAuth.instance;
 
   String email = '';
   String password = '';
+
+  Register({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -49,9 +52,8 @@ class Register extends StatelessWidget {
             //ステップ２
             onPressed: () async {
               try {
-                final newUser = await _auth.createUserWithEmailAndPassword(
+                await _auth.createUserWithEmailAndPassword(
                     email: email, password: password);
-                if (newUser != null) {
                   final userId = FirebaseAuth.instance.currentUser?.uid;
                   // FirestoreにユーザーIDを書き込む
                   await FirebaseFirestore.instance
@@ -64,7 +66,6 @@ class Register extends StatelessWidget {
                       content: Text('新規登録が完了しました！'),
                     ),
                   );
-                }
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'email-already-in-use') {
                   ScaffoldMessenger.of(context).showSnackBar(

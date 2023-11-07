@@ -1,8 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
+//import 'package:firebase_auth/firebase_auth.dart';
 
+// ignore: camel_case_types, must_be_immutable
 class UserLogin_restrict extends StatelessWidget {
+
+  UserLogin_restrict({super.key});
+
   String email = '';
+
   String password = '';
 
   @override

@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
-class UserLogin extends StatelessWidget {
+// ignore: must_be_immutable
+class UserLogin extends StatefulWidget {
+
+  const UserLogin({super.key});
+
+  @override
+  State<UserLogin> createState() => _UserLoginState();
+}
+
+class _UserLoginState extends State<UserLogin> {
   final _auth = FirebaseAuth.instance;
 
   String email = '';
+
   String password = '';
 
   @override
@@ -46,16 +56,14 @@ class UserLogin extends StatelessWidget {
             child: const Text('ログイン'),
             onPressed: () async {
               try {
-                final newUser = await _auth.signInWithEmailAndPassword(
+                await _auth.signInWithEmailAndPassword(
                     email: email, password: password);
-                if (newUser != null) {
                   Navigator.of(context).pop();
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('ログインしました'),
                     ),
                   );
-                }
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'invalid-email') {
                   ScaffoldMessenger.of(context).showSnackBar(
