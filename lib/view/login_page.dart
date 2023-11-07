@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spicy_ranking/routing/start_route.dart';
 
 // ignore: must_be_immutable
 class UserLogin extends StatefulWidget {
@@ -21,7 +22,7 @@ class _UserLoginState extends State<UserLogin> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[400],
+        backgroundColor: const Color(0xFFc6302c),
         title: const Text('ログイン'),
       ),
       body: Column(
@@ -29,10 +30,14 @@ class _UserLoginState extends State<UserLogin> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
+              cursorColor: const Color(0xFFc6302c),
               onChanged: (value) {
                 email = value;
               },
               decoration: const InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFFc6302c)),
+                ),
                 hintText: 'メールアドレスを入力',
               ),
             ),
@@ -40,25 +45,33 @@ class _UserLoginState extends State<UserLogin> {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
+              cursorColor: const Color(0xFFc6302c),
               onChanged: (value) {
                 password = value;
               },
               obscureText: true,
               decoration: const InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Color(0xFFc6302c)),
+                ),
                 hintText: 'パスワードを入力',
               ),
             ),
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueGrey[400],
+              backgroundColor: const Color.fromARGB(255, 34, 12, 6),
             ),
             child: const Text('ログイン'),
             onPressed: () async {
               try {
                 await _auth.signInWithEmailAndPassword(
                     email: email, password: password);
-                  Navigator.of(context).pop();
+                if (context.mounted) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const StartRoute()),
+                  );
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('ログインしました'),

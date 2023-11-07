@@ -103,7 +103,7 @@ class TabBarPageState extends State<StartRoute> {
                 },
               ),
           ],
-          backgroundColor: Colors.red[400],
+          backgroundColor: const Color(0xFFc6302c),
           automaticallyImplyLeading: false,
           // elevation: widgetが浮いてるような影をつける
           elevation: 10,
