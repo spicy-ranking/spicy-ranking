@@ -20,10 +20,14 @@ class UserLogin extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
+              cursorColor: Colors.blueGrey[400],
               onChanged: (value) {
                 email = value;
               },
               decoration: const InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
                 hintText: 'メールアドレスを入力',
               ),
             ),
@@ -31,11 +35,15 @@ class UserLogin extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
+              cursorColor: Colors.blueGrey[400],
               onChanged: (value) {
                 password = value;
               },
               obscureText: true,
               decoration: const InputDecoration(
+                focusedBorder: UnderlineInputBorder(
+                  borderSide: BorderSide(color: Colors.blueGrey),
+                ),
                 hintText: 'パスワードを入力',
               ),
             ),
