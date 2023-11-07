@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:spicy_ranking/routing/start_route.dart';
 
 class UserLogin extends StatelessWidget {
   final _auth = FirebaseAuth.instance;
@@ -46,10 +47,13 @@ class UserLogin extends StatelessWidget {
             child: const Text('ログイン'),
             onPressed: () async {
               try {
-                final newUser = await _auth.signInWithEmailAndPassword(
+                await _auth.signInWithEmailAndPassword(
                     email: email, password: password);
-                if (newUser != null) {
-                  Navigator.of(context).pop();
+                if (context.mounted) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const StartRoute()),
+                  );
                   ScaffoldMessenger.of(context).showSnackBar(
                     const SnackBar(
                       content: Text('ログインしました'),

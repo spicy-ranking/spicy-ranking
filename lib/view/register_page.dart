@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:spicy_ranking/routing/start_route.dart';
 
 class Register extends StatelessWidget {
   //ステップ１
@@ -58,12 +59,18 @@ class Register extends StatelessWidget {
                       .collection('users')
                       .doc(userId)
                       .set({'tap_count': 0, "time": 0});
-                  Navigator.of(context).pop(); //元の画面に戻る
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    const SnackBar(
-                      content: Text('新規登録が完了しました！'),
-                    ),
-                  );
+                  if (context.mounted) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const StartRoute()),
+                    );
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        content: Text('ログインしました'),
+                      ),
+                    );
+                  }
                 }
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'email-already-in-use') {
