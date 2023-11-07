@@ -421,37 +421,6 @@ class _InputState extends State<Input> {
           ),
         ],
       ),
-
-      //商品登録ボタン
-      const SizedBox(height: 30),
-      Container(
-        alignment: Alignment.bottomCenter,
-        child: SizedBox(
-          width: 250,
-          height: 60,
-          child: ElevatedButton(
-            onPressed: () {
-              Navigator.of(context).push(
-                MaterialPageRoute(
-                  builder: (context) {
-                    return const addMenu(); // 遷移先の画面widgetを指定
-                  },
-                ),
-              );
-            },
-            style: ElevatedButton.styleFrom(
-              backgroundColor: const Color.fromARGB(255, 99, 21, 0),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
-              ),
-            ),
-            child: const Text(
-              '商品を追加する',
-              style: TextStyle(fontWeight: FontWeight.bold, fontSize: 18),
-            ),
-          ),
-        ),
-      ),
     ]));
   }
 }

@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:spicy_ranking/routing/start_route.dart';
 
+// ignore: must_be_immutable
 class Register extends StatelessWidget {
   //ステップ１
   final _auth = FirebaseAuth.instance;
 
   String email = '';
   String password = '';
+
+  Register({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -75,7 +78,6 @@ class Register extends StatelessWidget {
                       content: Text('ログインしました'),
                     ),
                   );
-                }
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'email-already-in-use') {
                   ScaffoldMessenger.of(context).showSnackBar(
