@@ -8,6 +8,15 @@ import 'dart:math';
 import 'package:timeago/timeago.dart' as timeAgo; //時間差分計算用パッケージ
 
 
+double calculateFontSize(int textLength) {
+    //文字数に応じて文字サイズを調整
+    if (textLength <= 10) {
+      return 16; // 文字数が少ない場合の文字サイズ
+    } else {
+      return 14; // 多い場合の文字サイズ
+    }
+  }
+
 class History { //履歴クラス
 
   late String id; // ドキュメントID
@@ -95,21 +104,29 @@ class HistoryPage extends StatelessWidget {
 
         return ListView.builder(
           // Listのデータの数を数える
-          itemExtent: 140,
+          //itemExtent: 140,
           itemCount: historys.length >= 15 ? 15 : historys.length, //最大15個履歴表示
 
           itemBuilder: (context, index) {
             // index番目から数えて、０〜末尾まで登録されているデータを表示する変数
             final history = historys[index];
 
-            return Column(
+            return Card(
+              child:
+              Column(
+              mainAxisSize: MainAxisSize.min,
               children: [
                 ListTile(
               // Historyクラスのメンバ変数を使用する
-              title: Text('🥵: ${history.hot}'),
-              subtitle: Text('🙂: ${history.cold}'),
+              title: Text('🥵: ${history.hot}',
+                          //style: TextStyle(fontSize: calculateFontSize(history.hot.length)),
+                          ),
+              subtitle: Text('🙂: ${history.cold}',
+                          //style: TextStyle(fontSize: calculateFontSize(history.cold.length)),
+                          ),
               leading: const Icon(Icons.account_circle),
               trailing: Text(createTimeAgoString(history.time)),
+              
               //contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8), // ボタンとの余白を設定
             ),
             Row(
@@ -335,13 +352,9 @@ class HistoryPage extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 10),
-              const Divider(
-                height: 1,
-                thickness: 2,
-                color: Colors.grey,
-              ),
               //SizedBox(height: 10),
               ],
+            ),
             );
           },
         );

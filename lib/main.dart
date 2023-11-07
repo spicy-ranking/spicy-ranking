@@ -22,7 +22,7 @@ class MyApp extends StatelessWidget {
         debugShowCheckedModeBanner: false,
         initialRoute: '/',
         routes: <String, WidgetBuilder>{
-          '/login': (BuildContext context) => UserLogin(),
+          '/login': (BuildContext context) => const UserLogin(),
           '/regis': (BuildContext context) => Register(),
         });
   }
