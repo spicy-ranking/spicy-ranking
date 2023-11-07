@@ -12,7 +12,7 @@ class UserLogin extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[400],
+        backgroundColor: const Color(0xFFc6302c),
         title: const Text('ログイン'),
       ),
       body: Column(
@@ -20,13 +20,13 @@ class UserLogin extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
-              cursorColor: Colors.blueGrey[400],
+              cursorColor: const Color(0xFFc6302c),
               onChanged: (value) {
                 email = value;
               },
               decoration: const InputDecoration(
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Color(0xFFc6302c)),
                 ),
                 hintText: 'メールアドレスを入力',
               ),
@@ -35,14 +35,14 @@ class UserLogin extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
-              cursorColor: Colors.blueGrey[400],
+              cursorColor: const Color(0xFFc6302c),
               onChanged: (value) {
                 password = value;
               },
               obscureText: true,
               decoration: const InputDecoration(
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Color(0xFFc6302c)),
                 ),
                 hintText: 'パスワードを入力',
               ),
@@ -50,7 +50,7 @@ class UserLogin extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueGrey[400],
+              backgroundColor: const Color.fromARGB(255, 34, 12, 6),
             ),
             child: const Text('ログイン'),
             onPressed: () async {

@@ -247,7 +247,7 @@ class _InputState extends State<Input> {
                   MaterialPageRoute(builder: (context) => const StartRoute()));
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.redAccent[400],
+              backgroundColor: const Color(0xFFc6302c),
               fixedSize: const Size(120, 50),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),
@@ -410,7 +410,7 @@ class _InputState extends State<Input> {
                   MaterialPageRoute(builder: (context) => const StartRoute()));
             },
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.lightBlueAccent[400],
+              backgroundColor: const Color(0xFF00b9f2),
               fixedSize: const Size(120, 50),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(10),

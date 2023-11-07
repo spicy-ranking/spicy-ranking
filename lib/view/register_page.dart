@@ -14,7 +14,7 @@ class Register extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.blueGrey[400],
+        backgroundColor: const Color(0xFFc6302c),
         title: const Text('新規登録'),
       ),
       body: Column(
@@ -22,13 +22,13 @@ class Register extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
-              cursorColor: Colors.blueGrey[400],
+              cursorColor: const Color(0xFFc6302c),
               onChanged: (value) {
                 email = value;
               },
               decoration: const InputDecoration(
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Color(0xFFc6302c)),
                 ),
                 hintText: 'メールアドレスを入力',
               ),
@@ -37,14 +37,14 @@ class Register extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.all(10.0),
             child: TextField(
-              cursorColor: Colors.blueGrey[400],
+              cursorColor: const Color(0xFFc6302c),
               onChanged: (value) {
                 password = value;
               },
               obscureText: true,
               decoration: const InputDecoration(
                 focusedBorder: UnderlineInputBorder(
-                  borderSide: BorderSide(color: Colors.blueGrey),
+                  borderSide: BorderSide(color: Color(0xFFc6302c)),
                 ),
                 hintText: 'パスワードを入力',
               ),
@@ -52,33 +52,29 @@ class Register extends StatelessWidget {
           ),
           ElevatedButton(
             style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blueGrey[400],
-            ),
+                backgroundColor: const Color.fromARGB(255, 34, 12, 6)),
             child: const Text('新規登録'),
             //ステップ２
             onPressed: () async {
               try {
-                final newUser = await _auth.createUserWithEmailAndPassword(
+                await _auth.createUserWithEmailAndPassword(
                     email: email, password: password);
-                if (newUser != null) {
-                  final userId = FirebaseAuth.instance.currentUser?.uid;
-                  // FirestoreにユーザーIDを書き込む
-                  await FirebaseFirestore.instance
-                      .collection('users')
-                      .doc(userId)
-                      .set({'tap_count': 0, "time": 0});
-                  if (context.mounted) {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const StartRoute()),
-                    );
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      const SnackBar(
-                        content: Text('ログインしました'),
-                      ),
-                    );
-                  }
+                final userId = FirebaseAuth.instance.currentUser?.uid;
+                // FirestoreにユーザーIDを書き込む
+                await FirebaseFirestore.instance
+                    .collection('users')
+                    .doc(userId)
+                    .set({'tap_count': 0, "time": 0});
+                if (context.mounted) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => const StartRoute()),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(
+                      content: Text('ログインしました'),
+                    ),
+                  );
                 }
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'email-already-in-use') {
