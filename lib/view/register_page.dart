@@ -78,6 +78,7 @@ class Register extends StatelessWidget {
                       content: Text('ログインしました'),
                     ),
                   );
+                }
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'email-already-in-use') {
                   ScaffoldMessenger.of(context).showSnackBar(

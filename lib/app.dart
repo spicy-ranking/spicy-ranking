@@ -1,13 +1,9 @@
 // 最初に表示される画面
 import 'package:flutter/material.dart';
 import 'package:spicy_ranking/routing/start_route.dart';
-//import 'package:spicy_ranking/view/input_page.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:spicy_ranking/view/addmenu_page.dart';
 import 'package:spicy_ranking/view/ranking_page.dart';
-//import 'package:spicy_ranking/view/history_page.dart';
 import 'package:spicy_ranking/view/start_page.dart';
-// import 'package:spicy_ranking/view/account_page.dart';
 import 'package:spicy_ranking/routing/login_judge.dart';
 import 'dart:async';
 
@@ -17,27 +13,6 @@ class AppScreen extends StatefulWidget {
   // start_pageを表示
   @override
   StartPageState createState() => StartPageState();
-
-  // タブバーとそれに連動するタブページを表示する
-  // @override
-  // TabBarPageState createState() => TabBarPageState();
-
-  // ページを表示するだけの
-  // Widget build(BuildContext context) {
-  //   return Scaffold(
-  //     appBar: buildAppBar(),
-  //     body: const Input(),
-  //   );
-  // }
-
-  // AppBar buildAppBar() {
-  //   return AppBar(
-  //     title: const Text('SPICY-RANKING'),
-  //     backgroundColor: Colors.red[400],
-  //     // elevatino: widgetが浮いてるような影をつける
-  //     elevation: 10,
-  //   );
-  // }
 }
 
 class StartPageState extends State<AppScreen> {

@@ -1,11 +1,8 @@
 import 'package:flutter/material.dart';
-// import 'package:spicy_ranking/app.dart';
 import 'package:spicy_ranking/constant/constants.dart';
-//import 'package:spicy_ranking/components/drop_box_hot_menu.dart';
 import 'package:spicy_ranking/routing/calcurate.dart';
 import 'package:spicy_ranking/routing/start_route.dart';
 import 'package:spicy_ranking/routing/send_route.dart';
-import 'package:spicy_ranking/view/addmenu_page.dart';
 import '../components/drop_box_product_menu.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
