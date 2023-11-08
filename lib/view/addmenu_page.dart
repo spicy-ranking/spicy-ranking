@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
-
+import 'package:spicy_ranking/routing/start_route.dart';
 
 
 
@@ -10,10 +10,10 @@ class addMenu extends StatefulWidget {
   addMenu({super.key});
 
   @override
-  State<addMenu> createState() => _addMenuState();
+  State<addMenu> createState() => addMenuState();
 }
 
-class _addMenuState extends State<addMenu> {
+class addMenuState extends State<addMenu> {
   final ImagePicker _picker = ImagePicker();
   File? _file;
 
@@ -45,6 +45,7 @@ class _addMenuState extends State<addMenu> {
           // 商品の写真を追加
           //写真表示
           if(_file != null) Image.file(_file!, fit: BoxFit.cover) 
+          
           else Container(
                 width: 150,
                 height: 150,
@@ -89,7 +90,10 @@ class _addMenuState extends State<addMenu> {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () {
-                          Navigator.of(context).pop();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(builder: (context) => const StartRoute()),
+                          );
                         },
                         child: const Text('OK'),
                       ),
