@@ -7,7 +7,7 @@ import 'package:spicy_ranking/routing/start_route.dart';
 
 // ignore: camel_case_types
 class addMenu extends StatefulWidget {
-  addMenu({super.key});
+  const addMenu({super.key});
 
   @override
   State<addMenu> createState() => addMenuState();
@@ -43,8 +43,14 @@ class addMenuState extends State<addMenu> {
       body: Column(
         children: <Widget>[
           // 商品の写真を追加
+          const SizedBox(height: 30),
           //写真表示
-          if(_file != null) Image.file(_file!, fit: BoxFit.cover) 
+          if(_file != null) 
+          Image(
+            image:FileImage(_file!) ,
+            width:  300,
+            height: 200,
+          )
           
           else Container(
                 width: 150,
@@ -59,6 +65,7 @@ class addMenuState extends State<addMenu> {
                   color: Colors.black,
                 ),
               ),
+              const SizedBox(height: 30),
           //画像選択ボタン
           OutlinedButton(
                   onPressed: () async {
