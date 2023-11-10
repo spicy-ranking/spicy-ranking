@@ -1,11 +1,8 @@
+import 'dart:typed_data'; // 追加
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
 import 'package:spicy_ranking/routing/start_route.dart';
 
-
-
-// ignore: camel_case_types
 class addMenu extends StatefulWidget {
   const addMenu({super.key});
 
@@ -15,68 +12,55 @@ class addMenu extends StatefulWidget {
 
 class addMenuState extends State<addMenu> {
   final ImagePicker _picker = ImagePicker();
-  File? _file;
+  Uint8List? _imageBytes; // 追加
 
-  // // カメラから写真を取得するメソッド
-  // Future getImageFromCamera() async {
-  //   final pickedFile = await _picker.pickImage(source: ImageSource.camera);
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       _image = XFile(pickedFile.path);
-  //     }
-  //   });
-  // }
-
-  // // ギャラリーから写真を取得するメソッド
-  // Future getImageFromGarally() async {
-  //   final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
-  //   setState(() {
-  //     if (pickedFile != null) {
-  //       _image = XFile(pickedFile.path);
-  //     }
-  //   });
-  // }
-  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
         children: <Widget>[
-          // 商品の写真を追加
           const SizedBox(height: 30),
-          //写真表示
-          if (_file != null)
+          // 写真表示
+          if (_imageBytes != null)
             SizedBox(
-                height: 150,
-                width: 200,
-                child: Image(
-                  image: FileImage(_file!),
-                  fit: BoxFit.fill,
-                ))
-          
-          else Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  color: Colors.grey[300],
-                  border: Border.all(color: Colors.black),
-                ),
-                child: const Icon(
-                  Icons.add_a_photo,
-                  size: 50,
-                  color: Colors.black,
-                ),
+              height: 150,
+              width: 200,
+              child: Image.memory(
+                _imageBytes!,
+                fit: BoxFit.fill,
               ),
-              const SizedBox(height: 30),
-          //画像選択ボタン
+            )
+          else
+            Container(
+              width: 150,
+              height: 150,
+              decoration: BoxDecoration(
+                color: Colors.grey[300],
+                border: Border.all(color: Colors.black),
+              ),
+              child: const Icon(
+                Icons.add_a_photo,
+                size: 50,
+                color: Colors.black,
+              ),
+            ),
+          const SizedBox(height: 30),
+
+          // 画像選択ボタン
           OutlinedButton(
-                  onPressed: () async {
-                    final XFile? _image = await _picker.pickImage(source: ImageSource.gallery);
-                    _file = File(_image!.path);
-                    setState(() {});
-                  },
-                  child: const Text('画像を選択')
-                ) ,
+            onPressed: () async {
+              final XFile? pickedFile =
+                  await _picker.pickImage(source: ImageSource.gallery);
+              if (pickedFile != null) {
+                final List<int> imageBytes = await pickedFile.readAsBytes();
+                setState(() {
+                  _imageBytes = Uint8List.fromList(imageBytes);
+                });
+              }
+            },
+            child: const Text('画像を選択'),
+          ),
+
           // 商品名のテキストフィールド
           const Padding(
             padding: EdgeInsets.all(16.0),
@@ -86,6 +70,7 @@ class addMenuState extends State<addMenu> {
               ),
             ),
           ),
+
           // 送信ボタン
           ElevatedButton(
             onPressed: () async {
@@ -101,8 +86,7 @@ class addMenuState extends State<addMenu> {
                         onPressed: () {
                           Navigator.push(
                             context,
-                            MaterialPageRoute(builder: (context) => const StartRoute()),
-                          );
+                            MaterialPageRoute(builder: (context) => const StartRoute()));
                         },
                         child: const Text('OK'),
                       ),
@@ -110,8 +94,6 @@ class addMenuState extends State<addMenu> {
                   );
                 },
               );
-              // ignore: use_build_context_synchronously
-              Navigator.pop(context);
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
