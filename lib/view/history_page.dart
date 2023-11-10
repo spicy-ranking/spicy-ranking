@@ -7,17 +7,17 @@ import 'dart:math';
 // ignore: depend_on_referenced_packages, library_prefixes
 import 'package:timeago/timeago.dart' as timeAgo; //時間差分計算用パッケージ
 
-
 double calculateFontSize(int textLength) {
-    //文字数に応じて文字サイズを調整
-    if (textLength <= 10) {
-      return 16; // 文字数が少ない場合の文字サイズ
-    } else {
-      return 14; // 多い場合の文字サイズ
-    }
+  //文字数に応じて文字サイズを調整
+  if (textLength <= 10) {
+    return 16; // 文字数が少ない場合の文字サイズ
+  } else {
+    return 14; // 多い場合の文字サイズ
   }
+}
 
-class History { //履歴クラス
+class History {
+  //履歴クラス
 
   late String id; // ドキュメントID
   late String hot; //辛いもの
@@ -112,148 +112,22 @@ class HistoryPage extends StatelessWidget {
             final history = historys[index];
 
             return Card(
-              child:
-              Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                ListTile(
-                  // Historyクラスのメンバ変数を使用する
-                  title: Text('🥵: ${history.hot}'),
-                  subtitle: Text('🙂: ${history.cold}'),
-                  leading: const Icon(Icons.account_circle),
-                  trailing: Text(createTimeAgoString(history.time)),
-                  //contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8), // ボタンとの余白を設定
-                ),
-                Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    //いいねボタン
-                    OutlinedButton.icon(
-                      onPressed: () async {
-                        bool canTap = await tapJudge();
-                        if (canTap) {
-                          CollectionReference historyCollection =
-                              FirebaseFirestore.instance.collection('history');
-                          CollectionReference cupNoodleCollection =
-                              FirebaseFirestore.instance
-                                  .collection('spicy-instant-noodle-expriment');
-                          int firstRate = 0;
-                          int secondRate = 0;
-                          int firstRd = 0;
-                          double firstVol = 0; // firebase 登録の値が小数だからdouble型
-                          int secondRd = 0;
-                          double secondVol = 0; // firebase 登録の値が小数だからdouble型
-                          // クリックされた履歴のIDを取得
-                          await historyCollection.doc(history.id).update({
-                            'good': history.good + 1, //いいねカウントアップ
-                          });
-                          //辛いもの辛くないものの２つのレート取得
-                          await cupNoodleCollection
-                              .where('name', whereIn: [history.hot])
-                              .get()
-                              .then((QuerySnapshot querySnapshot) {
-                                if (querySnapshot.docs.isNotEmpty) {
-                                  firstRate = (querySnapshot.docs.first.data()
-                                      as Map<String, dynamic>)['rate'];
-                                  firstRd = (querySnapshot.docs.first.data()
-                                      as Map<String, dynamic>)['rd'];
-                                  firstVol = (querySnapshot.docs.first.data()
-                                      as Map<String, dynamic>)['vol'];
-                                  debugPrint('First Rate: $firstRate');
-                                }
-                              });
-                          await cupNoodleCollection
-                              .where('name', whereIn: [history.cold])
-                              .get()
-                              .then((QuerySnapshot querySnapshot) {
-                                if (querySnapshot.docs.isNotEmpty) {
-                                  secondRate = (querySnapshot.docs.first.data()
-                                      as Map<String, dynamic>)['rate'];
-                                  secondRd = (querySnapshot.docs.first.data()
-                                      as Map<String, dynamic>)['rd'];
-                                  secondVol = (querySnapshot.docs.first.data()
-                                      as Map<String, dynamic>)['vol'];
-                                  debugPrint('second Rate: $secondRate');
-                                }
-                              });
-                          //グリコレーティング計算
-                          final winner = setPlayer(firstRate.toDouble(),
-                              firstRd.toDouble(), firstVol.toDouble());
-                          final loser = setPlayer(secondRate.toDouble(),
-                              secondRd.toDouble(), secondVol.toDouble());
-
-                          final players = <Player>[winner, loser];
-
-                          // win: 1, lose: 2
-                          final ranks = [1, 2];
-
-                          final newPlayers = calcRatings(players, ranks);
-
-                          debugPrint(newPlayers[0].rating.toString());
-                          debugPrint(newPlayers[1].rating.toString());
-
-                          // 変数を更新
-                          firstRate = newPlayers[0].rating.toInt();
-                          firstRd = newPlayers[0].rd.toInt();
-                          firstVol = newPlayers[0].vol;
-                          secondRate = newPlayers[1].rating.toInt();
-                          secondRd = newPlayers[1].rd.toInt();
-                          secondVol = newPlayers[1].vol;
-
-                          //List result = valueFunction(firstRate, secondRate, true); イロレーティング用
-
-                          debugPrint('New First Rate: ${firstRate}');
-                          debugPrint('New Second Rate: ${secondRate}');
-                          //レート代入
-                          await cupNoodleCollection
-                              .where('name', whereIn: [history.hot])
-                              .get()
-                              .then((QuerySnapshot querySnapshot) {
-                                querySnapshot.docs.first.reference.update({
-                                  'rate': firstRate,
-                                  'rd': firstRd,
-                                  'vol': firstVol
-                                }).then((_) {
-                                  debugPrint('First Rate updated successfully');
-                                }).catchError((error) {
-                                  debugPrint(
-                                      'Failed to update First Rate: $error');
-                                });
-                              });
-                          await cupNoodleCollection
-                              .where('name', whereIn: [history.cold])
-                              .get()
-                              .then((QuerySnapshot querySnapshot) {
-                                querySnapshot.docs.first.reference.update({
-                                  'rate': secondRate,
-                                  'rd': secondRd,
-                                  'vol': secondVol
-                                }).then((_) {
-                                  debugPrint(
-                                      'Second Rate updated successfully');
-                                }).catchError((error) {
-                                  debugPrint(
-                                      'Failed to update Second Rate: $error');
-                                });
-                              });
-                        } else {
-                          ScaffoldMessenger.of(context)
-                              .showSnackBar(const SnackBar(
-                            content: Text('今日の投票数制限(3回)を超えました'),
-                          ));
-                        }
-                      },
-                      icon: const Icon(Icons.thumb_up),
-                      label: Text('${history.good}'),
-                      style: OutlinedButton.styleFrom(
-                        foregroundColor: const Color(0xFFc6302c),
-                        //minimumSize: Size.zero,
-                        padding: EdgeInsets.zero,
-                      ),
-                    ),
-                    const SizedBox(width: 20), //横幅調整
-                    //よくないねボタン
-                    OutlinedButton.icon(
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  ListTile(
+                    // Historyクラスのメンバ変数を使用する
+                    title: Text('🥵: ${history.hot}'),
+                    subtitle: Text('🙂: ${history.cold}'),
+                    leading: const Icon(Icons.account_circle),
+                    trailing: Text(createTimeAgoString(history.time)),
+                    //contentPadding: EdgeInsets.fromLTRB(16, 8, 16, 8), // ボタンとの余白を設定
+                  ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      //いいねボタン
+                      OutlinedButton.icon(
                         onPressed: () async {
                           bool canTap = await tapJudge();
                           if (canTap) {
@@ -266,13 +140,12 @@ class HistoryPage extends StatelessWidget {
                             int firstRate = 0;
                             int secondRate = 0;
                             int firstRd = 0;
-                            double firstVol = 0; // firebase 登録の値が少数だからdouble型
+                            double firstVol = 0; // firebase 登録の値が小数だからdouble型
                             int secondRd = 0;
-                            double secondVol = 0; // firebase 登録の値が少数だからdouble型
-
+                            double secondVol = 0; // firebase 登録の値が小数だからdouble型
                             // クリックされた履歴のIDを取得
                             await historyCollection.doc(history.id).update({
-                              'bad': history.bad + 1, //よくないねカウントアップ
+                              'good': history.good + 1, //いいねカウントアップ
                             });
                             //辛いもの辛くないものの２つのレート取得
                             await cupNoodleCollection
@@ -304,12 +177,11 @@ class HistoryPage extends StatelessWidget {
                                     debugPrint('second Rate: $secondRate');
                                   }
                                 });
-                            //レート計算
-
-                            final winner = setPlayer(secondRate.toDouble(),
-                                secondRd.toDouble(), secondVol.toDouble());
-                            final loser = setPlayer(firstRate.toDouble(),
+                            //グリコレーティング計算
+                            final winner = setPlayer(firstRate.toDouble(),
                                 firstRd.toDouble(), firstVol.toDouble());
+                            final loser = setPlayer(secondRate.toDouble(),
+                                secondRd.toDouble(), secondVol.toDouble());
 
                             final players = <Player>[winner, loser];
 
@@ -322,17 +194,17 @@ class HistoryPage extends StatelessWidget {
                             debugPrint(newPlayers[1].rating.toString());
 
                             // 変数を更新
-                            secondRate = newPlayers[0].rating.toInt();
-                            secondRd = newPlayers[0].rd.toInt();
-                            secondVol = newPlayers[0].vol;
-                            firstRate = newPlayers[1].rating.toInt();
-                            firstRd = newPlayers[1].rd.toInt();
-                            firstVol = newPlayers[1].vol;
+                            firstRate = newPlayers[0].rating.toInt();
+                            firstRd = newPlayers[0].rd.toInt();
+                            firstVol = newPlayers[0].vol;
+                            secondRate = newPlayers[1].rating.toInt();
+                            secondRd = newPlayers[1].rd.toInt();
+                            secondVol = newPlayers[1].vol;
 
-                            //List result = valueFunction(firstRate, secondRate, false); //ここだけ変更
+                            //List result = valueFunction(firstRate, secondRate, true); イロレーティング用
+
                             debugPrint('New First Rate: ${firstRate}');
                             debugPrint('New Second Rate: ${secondRate}');
-
                             //レート代入
                             await cupNoodleCollection
                                 .where('name', whereIn: [history.hot])
@@ -367,25 +239,188 @@ class HistoryPage extends StatelessWidget {
                                   });
                                 });
                           } else {
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(const SnackBar(
-                              content: Text('今日の投票数制限(3回)を超えました'),
-                            ));
+                            // ignore: use_build_context_synchronously
+                            showDialog(
+                              context: context,
+                              builder: (BuildContext context) {
+                                return AlertDialog(
+                                  title: const Text('回数制限'),
+                                  content: const Text('今日の投票数制限(3回)を超えました'),
+                                  actions: <Widget>[
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.of(context).pop();
+                                      },
+                                      child: const Text('OK'),
+                                    ),
+                                  ],
+                                );
+                              },
+                            );
                           }
                         },
-                        icon: const Icon(Icons.thumb_down),
-                        label: Text('${history.bad}'),
+                        icon: const Icon(Icons.thumb_up),
+                        label: Text('${history.good}'),
                         style: OutlinedButton.styleFrom(
-                          foregroundColor: const Color(0xFF00b9f2),
+                          foregroundColor: const Color(0xFFc6302c),
                           //minimumSize: Size.zero,
                           padding: EdgeInsets.zero,
-                        )),
-                  ],
-                ),
-                const SizedBox(height: 10),
-                //SizedBox(height: 10),
-              ],
-            ),
+                        ),
+                      ),
+                      const SizedBox(width: 20), //横幅調整
+                      //よくないねボタン
+                      OutlinedButton.icon(
+                          onPressed: () async {
+                            bool canTap = await tapJudge();
+                            if (canTap) {
+                              CollectionReference historyCollection =
+                                  FirebaseFirestore.instance
+                                      .collection('history');
+                              CollectionReference cupNoodleCollection =
+                                  FirebaseFirestore.instance.collection(
+                                      'spicy-instant-noodle-expriment');
+                              int firstRate = 0;
+                              int secondRate = 0;
+                              int firstRd = 0;
+                              double firstVol = 0; // firebase 登録の値が少数だからdouble型
+                              int secondRd = 0;
+                              double secondVol =
+                                  0; // firebase 登録の値が少数だからdouble型
+
+                              // クリックされた履歴のIDを取得
+                              await historyCollection.doc(history.id).update({
+                                'bad': history.bad + 1, //よくないねカウントアップ
+                              });
+                              //辛いもの辛くないものの２つのレート取得
+                              await cupNoodleCollection
+                                  .where('name', whereIn: [history.hot])
+                                  .get()
+                                  .then((QuerySnapshot querySnapshot) {
+                                    if (querySnapshot.docs.isNotEmpty) {
+                                      firstRate =
+                                          (querySnapshot.docs.first.data()
+                                              as Map<String, dynamic>)['rate'];
+                                      firstRd = (querySnapshot.docs.first.data()
+                                          as Map<String, dynamic>)['rd'];
+                                      firstVol =
+                                          (querySnapshot.docs.first.data()
+                                              as Map<String, dynamic>)['vol'];
+                                      debugPrint('First Rate: $firstRate');
+                                    }
+                                  });
+                              await cupNoodleCollection
+                                  .where('name', whereIn: [history.cold])
+                                  .get()
+                                  .then((QuerySnapshot querySnapshot) {
+                                    if (querySnapshot.docs.isNotEmpty) {
+                                      secondRate =
+                                          (querySnapshot.docs.first.data()
+                                              as Map<String, dynamic>)['rate'];
+                                      secondRd =
+                                          (querySnapshot.docs.first.data()
+                                              as Map<String, dynamic>)['rd'];
+                                      secondVol =
+                                          (querySnapshot.docs.first.data()
+                                              as Map<String, dynamic>)['vol'];
+                                      debugPrint('second Rate: $secondRate');
+                                    }
+                                  });
+                              //レート計算
+
+                              final winner = setPlayer(secondRate.toDouble(),
+                                  secondRd.toDouble(), secondVol.toDouble());
+                              final loser = setPlayer(firstRate.toDouble(),
+                                  firstRd.toDouble(), firstVol.toDouble());
+
+                              final players = <Player>[winner, loser];
+
+                              // win: 1, lose: 2
+                              final ranks = [1, 2];
+
+                              final newPlayers = calcRatings(players, ranks);
+
+                              debugPrint(newPlayers[0].rating.toString());
+                              debugPrint(newPlayers[1].rating.toString());
+
+                              // 変数を更新
+                              secondRate = newPlayers[0].rating.toInt();
+                              secondRd = newPlayers[0].rd.toInt();
+                              secondVol = newPlayers[0].vol;
+                              firstRate = newPlayers[1].rating.toInt();
+                              firstRd = newPlayers[1].rd.toInt();
+                              firstVol = newPlayers[1].vol;
+
+                              //List result = valueFunction(firstRate, secondRate, false); //ここだけ変更
+                              debugPrint('New First Rate: ${firstRate}');
+                              debugPrint('New Second Rate: ${secondRate}');
+
+                              //レート代入
+                              await cupNoodleCollection
+                                  .where('name', whereIn: [history.hot])
+                                  .get()
+                                  .then((QuerySnapshot querySnapshot) {
+                                    querySnapshot.docs.first.reference.update({
+                                      'rate': firstRate,
+                                      'rd': firstRd,
+                                      'vol': firstVol
+                                    }).then((_) {
+                                      debugPrint(
+                                          'First Rate updated successfully');
+                                    }).catchError((error) {
+                                      debugPrint(
+                                          'Failed to update First Rate: $error');
+                                    });
+                                  });
+                              await cupNoodleCollection
+                                  .where('name', whereIn: [history.cold])
+                                  .get()
+                                  .then((QuerySnapshot querySnapshot) {
+                                    querySnapshot.docs.first.reference.update({
+                                      'rate': secondRate,
+                                      'rd': secondRd,
+                                      'vol': secondVol
+                                    }).then((_) {
+                                      debugPrint(
+                                          'Second Rate updated successfully');
+                                    }).catchError((error) {
+                                      debugPrint(
+                                          'Failed to update Second Rate: $error');
+                                    });
+                                  });
+                            } else {
+                              // ignore: use_build_context_synchronously
+                              showDialog(
+                                context: context,
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: const Text('回数制限'),
+                                    content: const Text('今日の投票数制限(3回)を超えました'),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                        },
+                                        child: const Text('OK'),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            }
+                          },
+                          icon: const Icon(Icons.thumb_down),
+                          label: Text('${history.bad}'),
+                          style: OutlinedButton.styleFrom(
+                            foregroundColor: const Color(0xFF00b9f2),
+                            //minimumSize: Size.zero,
+                            padding: EdgeInsets.zero,
+                          )),
+                    ],
+                  ),
+                  const SizedBox(height: 10),
+                  //SizedBox(height: 10),
+                ],
+              ),
             );
           },
         );
