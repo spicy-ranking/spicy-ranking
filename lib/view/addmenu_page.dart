@@ -45,12 +45,14 @@ class addMenuState extends State<addMenu> {
           // 商品の写真を追加
           const SizedBox(height: 30),
           //写真表示
-          if(_file != null) 
-          Image(
-            image:FileImage(_file!) ,
-            width:  300,
-            height: 200,
-          )
+          if (_file != null)
+            SizedBox(
+                height: 150,
+                width: 200,
+                child: Image(
+                  image: FileImage(_file!),
+                  fit: BoxFit.fill,
+                ))
           
           else Container(
                 width: 150,
