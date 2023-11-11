@@ -1,7 +1,9 @@
+import 'dart:io';
 import 'dart:typed_data'; // 追加
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:spicy_ranking/routing/start_route.dart';
+import 'package:firebase_storage/firebase_storage.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class addMenu extends StatefulWidget {
   const addMenu({super.key});
@@ -13,6 +15,14 @@ class addMenu extends StatefulWidget {
 class addMenuState extends State<addMenu> {
   final ImagePicker _picker = ImagePicker();
   Uint8List? _imageBytes; // 追加
+
+  GlobalKey<FormState> key = GlobalKey();
+
+  final CollectionReference _reference =
+      FirebaseFirestore.instance.collection('requests');
+
+  String imageUrl = '';
+  String name = '';
 
   @override
   Widget build(BuildContext context) {
@@ -60,15 +70,34 @@ class addMenuState extends State<addMenu> {
                   _imageBytes = Uint8List.fromList(imageBytes);
                 });
               }
+              String uniqueFileName =
+                  DateTime.now().millisecondsSinceEpoch.toString();
+              Reference referenceRoot = FirebaseStorage.instance.ref();
+              Reference referenceDirImages = referenceRoot.child('requests');
+
+              Reference referenceImageToUpload =
+                  referenceDirImages.child('$uniqueFileName.jpg');
+              try {
+                //Store the file(webはできない)
+                await referenceImageToUpload.putFile(File(pickedFile!.path));
+                //Success: get the download URL
+                imageUrl = await referenceImageToUpload.getDownloadURL();
+              } catch (error) {
+                //Some error occurred
+                debugPrint(error.toString());
+              }
             },
             child: const Text('画像を選択', style: TextStyle(color: Colors.white)),
           ),
 
           // 商品名のテキストフィールド
-          const Padding(
-            padding: EdgeInsets.all(16.0),
+          Padding(
+            padding: const EdgeInsets.all(16.0),
             child: TextField(
-              decoration: InputDecoration(
+              onChanged: (value) {
+                name = value;
+              },
+              decoration: const InputDecoration(
                 labelText: '商品名',
               ),
             ),
@@ -78,8 +107,26 @@ class addMenuState extends State<addMenu> {
           ElevatedButton(
             onPressed: () async {
               // 送信ボタンが押されたときの処理
-              await showDialog(
+              if (imageUrl.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please upload an image')));
+                return;
+              }
+              if (name.isEmpty) {
+                ScaffoldMessenger.of(context).showSnackBar(
+                    const SnackBar(content: Text('Please enter a name')));
+                return;
+              }
+
+              // 送信処理
+              _reference.add({
+                'imageUrl': imageUrl,
+                'name': name,
+              });
+
+              showDialog(
                 context: context,
+                barrierDismissible: false,
                 builder: (BuildContext context) {
                   return AlertDialog(
                     title: const Text('登録完了'),
@@ -87,10 +134,7 @@ class addMenuState extends State<addMenu> {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                  builder: (context) => const StartRoute()));
+                          Navigator.pop(context);
                         },
                         child: const Text('OK'),
                       ),
