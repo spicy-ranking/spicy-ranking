@@ -6,6 +6,9 @@ class Start extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double deviceHeight = MediaQuery.of(context).size.height;
+    final double deviceWidth = MediaQuery.of(context).size.width;
+    final min = deviceHeight < deviceWidth ? deviceHeight : deviceWidth;
     return SingleChildScrollView(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -15,7 +18,10 @@ class Start extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 100),
             child: Align(
               alignment: Alignment.center,
-              child: Image.asset('images/spicy-ranking_logo.png'),
+              child: SizedBox(
+                  width: min * 0.6,
+                  height: min * 0.6,
+                  child: Image.asset('images/spicy-ranking_logo.png')),
             ),
           ),
           Row(

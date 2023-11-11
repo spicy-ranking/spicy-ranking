@@ -48,6 +48,9 @@ class addMenuState extends State<addMenu> {
 
           // 画像選択ボタン
           OutlinedButton(
+            style: OutlinedButton.styleFrom(
+              backgroundColor: const Color.fromARGB(255, 34, 12, 6),
+            ),
             onPressed: () async {
               final XFile? pickedFile =
                   await _picker.pickImage(source: ImageSource.gallery);
@@ -58,7 +61,7 @@ class addMenuState extends State<addMenu> {
                 });
               }
             },
-            child: const Text('画像を選択'),
+            child: const Text('画像を選択', style: TextStyle(color: Colors.white)),
           ),
 
           // 商品名のテキストフィールド
@@ -85,8 +88,9 @@ class addMenuState extends State<addMenu> {
                       TextButton(
                         onPressed: () {
                           Navigator.push(
-                            context,
-                            MaterialPageRoute(builder: (context) => const StartRoute()));
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const StartRoute()));
                         },
                         child: const Text('OK'),
                       ),
@@ -97,7 +101,7 @@ class addMenuState extends State<addMenu> {
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all<Color>(
-                  Colors.brown), // ボタンの背景色を茶色に変更
+                  const Color.fromARGB(255, 34, 12, 6)),
             ),
             child: const Text('商品追加をリクエスト'),
           ),
