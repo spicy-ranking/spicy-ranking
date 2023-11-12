@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:typed_data'; // 追加
 import 'package:flutter/material.dart';
+import 'package:spicy_ranking/routing/start_route.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -134,7 +135,10 @@ class addMenuState extends State<addMenu> {
                     actions: <Widget>[
                       TextButton(
                         onPressed: () {
-                          Navigator.pop(context);
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => const StartRoute()));
                         },
                         child: const Text('OK'),
                       ),
